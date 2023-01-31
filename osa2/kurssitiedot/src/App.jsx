@@ -1,8 +1,5 @@
-import { useState } from 'react'
-
-
-
 const App = () => {
+
   const course = {
     name: 'Half Stack application development',
     id: 0,
@@ -19,8 +16,13 @@ const App = () => {
       },
       {
         name: 'State of a component',
-        exercises: 14555,
+        exercises: 145,
         id: 3
+      },
+      {
+        name: 'State of a developers brain',
+        exercises: -15,
+        id: 35
       }
     ]
   }
@@ -50,9 +52,17 @@ const Header = ({ name }) => {
 }
 
 const Content = ({ content }) => {
+  const exerciseTotal = content.map(part => part.exercises).reduce((sum, currentExercises) => sum += currentExercises)
   return(
       <div>
-        {content.map(currentPart => <Part part={currentPart} key={currentPart.id}/>)}
+        <div>
+          {content.map(currentPart => <Part part={currentPart} key={currentPart.id}/>)}
+        </div>
+        <div>
+          <b>
+            Total of {exerciseTotal} exercises
+          </b>
+        </div>
       </div>
   )
 }
