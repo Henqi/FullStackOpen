@@ -25,24 +25,36 @@ const StatRow = ({text, interactions}) => {
 }
   
 const Statistics = ({texts, values}) => {
-
-  return(
-    <div>
-      <Header text={texts.header2} />
-      <StatRow text={texts.badText} interactions={values.bad}/>
-      <StatRow text={texts.neutralText} interactions={values.neutral}/>
-      <StatRow text={texts.goodText} interactions={values.good}/>
-      <StatRow text={texts.allText} interactions={values.bad+values.neutral+values.good}/>
-      <StatRow text={texts.averageText} interactions={values.average}/>
-    </div>
-  )
+  if (values.bad+values.neutral+values.good === 0) {
+    return(
+      <div>
+        <Header text={texts.header2} />
+        <p> No feedback given... </p>
+      </div>
+    )
+  }
+  else {
+    return(
+      <div>
+        <Header text={texts.header2} />
+        <StatRow text={texts.badText} interactions={values.bad}/>
+        <StatRow text={texts.neutralText} interactions={values.neutral}/>
+        <StatRow text={texts.goodText} interactions={values.good}/>
+        <StatRow text={texts.allText} interactions={values.bad+values.neutral+values.good}/>
+        <StatRow text={texts.averageText} interactions={values.average}/>
+      </div>
+    )
+  }
+  
 }
+
 
 const App = (props) => {
   const [badValue, setBadValue] = useState(0)
   const [neutralValue, setNeutralValue] = useState(0)
   const [goodValue, setGoodValue] = useState(0)
   const [averageValue, setAverageValue] = useState(0)
+  const allValues = {"bad":badValue, "neutral":neutralValue, "good":goodValue, "average":averageValue}
 
   const textData = {
   "header1":"Give Feedback!",
@@ -84,7 +96,7 @@ const App = (props) => {
       <Button text={textData.badText} handleClick={badIncrease} />
       <Button text={textData.neutralText} handleClick={neutralIncrease} />
       <Button text={textData.goodText} handleClick={goodIncrease} />
-      <Statistics texts={textData} values={{"bad":badValue, "neutral":neutralValue, "good":goodValue, "average":averageValue}}/>
+      <Statistics texts={textData} values={allValues}/>
     </div>
   )
 }
