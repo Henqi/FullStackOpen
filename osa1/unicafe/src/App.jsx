@@ -18,15 +18,21 @@ const Header = ({ text }) => {
 
 const StatisticLine = ({text, interactions}) => {
   return(
-    <div>
-      {text} {interactions}
-    </div>
+    <tr>
+      <td> 
+        {text} 
+      </td>
+      <td>
+        {interactions}
+      </td>
+    </tr>
   )
 }
   
 const Statistics = ({texts, values}) => {
-  
-  if (values.bad+values.neutral+values.good === 0) {
+  const valueSum = values.bad+values.neutral+values.good
+
+  if (valueSum === 0) {
     return(
       <div>
         <Header text={texts.header2} />
@@ -38,24 +44,28 @@ const Statistics = ({texts, values}) => {
     return(
       <div>
         <Header text={texts.header2} />
-        <StatisticLine text={texts.badText} interactions={values.bad}/>
-        <StatisticLine text={texts.neutralText} interactions={values.neutral}/>
-        <StatisticLine text={texts.goodText} interactions={values.good}/>
-        <StatisticLine text={texts.allText} interactions={values.bad+values.neutral+values.good}/>
-        <StatisticLine text={texts.averageText} interactions={values.average}/>
+        <table>
+          <tbody>
+            <StatisticLine text={texts.badText} interactions={values.bad}/>
+            <StatisticLine text={texts.neutralText} interactions={values.neutral}/>  
+            <StatisticLine text={texts.goodText} interactions={values.good}/>
+            <StatisticLine text={texts.allText} interactions={valueSum}/>
+            <StatisticLine text={texts.averageText} interactions={values.average}/>
+            <StatisticLine text={texts.positiveText} interactions={values.positive+"%"}/>
+          </tbody>
+        </table>
       </div>
     )
   }
-  
 }
-
 
 const App = (props) => {
   const [badValue, setBadValue] = useState(0)
   const [neutralValue, setNeutralValue] = useState(0)
   const [goodValue, setGoodValue] = useState(0)
   const [averageValue, setAverageValue] = useState(0)
-  const allValues = {"bad":badValue, "neutral":neutralValue, "good":goodValue, "average":averageValue}
+  const [positiveValue, setPositiveValue] = useState(0)
+  const allValues = {"bad":badValue, "neutral":neutralValue, "good":goodValue, "average":averageValue, "positive":positiveValue}
 
   const textData = {
   "header1":"Give Feedback!",
@@ -88,7 +98,13 @@ const App = (props) => {
     setAverageValue([badValue*-1, neutralValue*0, goodValue*1].reduce((average, current) => average += current)/(badValue+neutralValue+goodValue))
   }
 
+  const positivePercentCalc = () => {
+    console.log("calculating positive review percentage")
+    setPositiveValue(goodValue/(badValue+neutralValue+goodValue)*100)
+  }
+
   useEffect(averageCalc)
+  useEffect(positivePercentCalc) 
 
   return (
     <div>
@@ -96,7 +112,7 @@ const App = (props) => {
       <Button text={textData.badText} handleClick={badIncrease}/>
       <Button text={textData.neutralText} handleClick={neutralIncrease} />
       <Button text={textData.goodText} handleClick={goodIncrease} />
-      <Statistics texts={textData} values={allValues} averageFn={averageCalc}/>
+      <Statistics texts={textData} values={allValues}/>
     </div>
   )
 }
