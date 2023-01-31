@@ -1,36 +1,84 @@
 const App = () => {
 
-  const course = {
-    name: 'Half Stack application development',
-    id: 0,
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 145,
-        id: 3
-      },
-      {
-        name: 'State of a developers brain',
-        exercises: -15,
-        id: 35
-      }
-    ]
-  }
+  const mainHeader = 'Web Development Curriculum'
+  const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 0,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        },
+        {
+          name: 'Redux2',
+          exercises: -7,
+          id: 5
+        }
+      ]
+    }, 
+    {
+      name: 'Node.js',
+      id: -99,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: -1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: -2
+        }
+      ]
+    },
+    {
+      name: 'Boaty McBoatface',
+      id: 1337,
+      parts: [
+        {
+          name: 'Boat steering',
+          exercises: 3,
+          id: -10
+        },
+        {
+          name: 'Beer drinking',
+          exercises: 72,
+          id: -20
+        }
+      ]
+    }
+  ]
+
 
   return (
-    <div>
-      <Course course={course} />
-    </div>
+    <>
+      <div>
+        <h1>
+          {mainHeader}
+        </h1>
+      </div>
+      <div>
+        {courses.map(courseData => <Course course={courseData} key={courseData.id} />)}
+      </div>
+    </>
   )
 }
 
@@ -46,7 +94,7 @@ const Course = (props) => {
 const Header = ({ name }) => {
   return(
   <div>
-    <h1>{name}</h1>
+    <h2>{name}</h2>
   </div>
   )
 }
