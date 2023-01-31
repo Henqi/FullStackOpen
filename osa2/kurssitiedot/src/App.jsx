@@ -5,7 +5,7 @@ import { useState } from 'react'
 const App = () => {
   const course = {
     name: 'Half Stack application development',
-    id: 1,
+    id: 0,
     parts: [
       {
         name: 'Fundamentals of React',
@@ -19,7 +19,7 @@ const App = () => {
       },
       {
         name: 'State of a component',
-        exercises: 145,
+        exercises: 14555,
         id: 3
       }
     ]
@@ -52,7 +52,7 @@ const Header = ({ name }) => {
 const Content = ({ content }) => {
   return(
       <div>
-        {content.map(currentPart => <Part part={currentPart}/>)}
+        {content.map(currentPart => <Part part={currentPart} key={currentPart.id}/>)}
       </div>
   )
 }
@@ -60,7 +60,9 @@ const Content = ({ content }) => {
 const Part = ({ part }) => {
   return(
     <div>
-      {part.name+ ' ' +part.exercises}
+      <li>
+        {part.name+ ' ' +part.exercises}
+      </li>
     </div>
   )
 }
