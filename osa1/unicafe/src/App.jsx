@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Button = ({ text, handleClick }) => {
   return(
@@ -16,7 +16,7 @@ const Header = ({ text }) => {
   )
 }
 
-const StatRow = ({text, interactions}) => {
+const StatisticLine = ({text, interactions}) => {
   return(
     <div>
       {text} {interactions}
@@ -25,6 +25,7 @@ const StatRow = ({text, interactions}) => {
 }
   
 const Statistics = ({texts, values}) => {
+  
   if (values.bad+values.neutral+values.good === 0) {
     return(
       <div>
@@ -37,11 +38,11 @@ const Statistics = ({texts, values}) => {
     return(
       <div>
         <Header text={texts.header2} />
-        <StatRow text={texts.badText} interactions={values.bad}/>
-        <StatRow text={texts.neutralText} interactions={values.neutral}/>
-        <StatRow text={texts.goodText} interactions={values.good}/>
-        <StatRow text={texts.allText} interactions={values.bad+values.neutral+values.good}/>
-        <StatRow text={texts.averageText} interactions={values.average}/>
+        <StatisticLine text={texts.badText} interactions={values.bad}/>
+        <StatisticLine text={texts.neutralText} interactions={values.neutral}/>
+        <StatisticLine text={texts.goodText} interactions={values.good}/>
+        <StatisticLine text={texts.allText} interactions={values.bad+values.neutral+values.good}/>
+        <StatisticLine text={texts.averageText} interactions={values.average}/>
       </div>
     )
   }
@@ -70,19 +71,16 @@ const App = (props) => {
   const badIncrease = () => {
     console.log("increasing bad value by 1")
     setBadValue(badValue+1)
-    averageCalc()
   }
   
   const neutralIncrease = () => {
     console.log("increasing neutral value by 1")
     setNeutralValue(neutralValue+1)
-    averageCalc()
   }
   
   const goodIncrease = () => {
     console.log("increasing good value by 1")
     setGoodValue(goodValue+1)
-    averageCalc()
   }
 
   const averageCalc = () => {
@@ -90,13 +88,15 @@ const App = (props) => {
     setAverageValue([badValue*-1, neutralValue*0, goodValue*1].reduce((average, current) => average += current)/(badValue+neutralValue+goodValue))
   }
 
+  useEffect(averageCalc)
+
   return (
     <div>
       <Header text={textData.header1}/>
-      <Button text={textData.badText} handleClick={badIncrease} />
+      <Button text={textData.badText} handleClick={badIncrease}/>
       <Button text={textData.neutralText} handleClick={neutralIncrease} />
       <Button text={textData.goodText} handleClick={goodIncrease} />
-      <Statistics texts={textData} values={allValues}/>
+      <Statistics texts={textData} values={allValues} averageFn={averageCalc}/>
     </div>
   )
 }
