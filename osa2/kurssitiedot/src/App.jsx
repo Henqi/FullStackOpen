@@ -1,3 +1,5 @@
+import Course from "./components/Course"
+
 const App = () => {
 
   const mainHeader = 'Web Development Curriculum'
@@ -28,7 +30,7 @@ const App = () => {
         },
         {
           name: 'Redux2',
-          exercises: -7,
+          exercises: -17,
           id: 5
         }
       ]
@@ -67,7 +69,6 @@ const App = () => {
     }
   ]
 
-
   return (
     <>
       <div>
@@ -79,49 +80,6 @@ const App = () => {
         {courses.map(courseData => <Course course={courseData} key={courseData.id} />)}
       </div>
     </>
-  )
-}
-
-const Course = (props) => {
-  return (
-    <div>
-      <Header name={props.course.name}/>
-      <Content content={props.course.parts}/>
-    </div>
-  )
-}
-
-const Header = ({ name }) => {
-  return(
-  <div>
-    <h2>{name}</h2>
-  </div>
-  )
-}
-
-const Content = ({ content }) => {
-  const exerciseTotal = content.map(part => part.exercises).reduce((sum, currentExercises) => sum += currentExercises)
-  return(
-      <div>
-        <div>
-          {content.map(currentPart => <Part part={currentPart} key={currentPart.id}/>)}
-        </div>
-        <div>
-          <b>
-            Total of {exerciseTotal} exercises
-          </b>
-        </div>
-      </div>
-  )
-}
-
-const Part = ({ part }) => {
-  return(
-    <div>
-      <li>
-        {part.name+ ' ' +part.exercises}
-      </li>
-    </div>
   )
 }
 
