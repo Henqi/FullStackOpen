@@ -2,25 +2,35 @@ import { useState } from 'react'
 
 const App = (props) => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
+  const handlePhoneChange = (event) => {
+    setNewNumber(event.target.value)
+  }
+  
   const addNewPerson = (event) => {
     event.preventDefault()
     const personName = event.target[0].value.trim()
+    const personNumber = event.target[1].value.trim()
     
     if (persons.map(person => person.name).includes(personName)) {
       showErrorMessage(personName)
     }
     else {
-      const newPersons = [...persons].concat({'name':personName})
+      const newPersons = [...persons].concat({'name':personName, 'number':personNumber})
       setPersons(newPersons)
       setNewName('')
+      setNewNumber('')
     } 
   }
 
@@ -33,14 +43,19 @@ const App = (props) => {
   return (
     <>
       <h2>Phonebook</h2>
-      <form onSubmit={addNewPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <div>
+        <form onSubmit={addNewPerson}>
+          <div>
+            name: <input value={newName} onChange={handleNameChange}/>
+          </div>
+          <div>
+            phone: <input value={newNumber} onChange={handlePhoneChange}/>
+          </div>
+          <div>
+            <button type="submit">add</button>
+          </div>
+        </form>
+      </div>
       <h2>Numbers</h2>
       <div>
         {persons.map(person => <PersonRow personData={person} key={person.name}/>)}
@@ -52,7 +67,7 @@ const App = (props) => {
 const PersonRow = ({ personData }) => {
   return(
     <li>
-      {personData.name}
+      {personData.name} {personData.number}
     </li>
   )
 }
