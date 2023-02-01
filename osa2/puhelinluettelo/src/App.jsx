@@ -12,9 +12,22 @@ const App = (props) => {
 
   const addNewPerson = (event) => {
     event.preventDefault()
-    const newPersons = [...persons].concat({'name':event.target[0].value})
-    setPersons(newPersons)
-    setNewName('')
+    const personName = event.target[0].value.trim()
+    
+    if (persons.map(person => person.name).includes(personName)) {
+      showErrorMessage(personName)
+    }
+    else {
+      const newPersons = [...persons].concat({'name':personName})
+      setPersons(newPersons)
+      setNewName('')
+    } 
+  }
+
+  const showErrorMessage = (personName) => {
+    return(
+        alert(`${personName} is already added to phonebook!`)
+    )
   }
 
   return (
