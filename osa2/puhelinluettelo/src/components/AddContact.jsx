@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const AddContact = ({ newName, setNewName, newNumber, setNewNumber, persons, setPersons, handleNameChange, handleNumberChange }) => {
     
     const addNewPerson = (event) => {
@@ -9,11 +11,17 @@ const AddContact = ({ newName, setNewName, newNumber, setNewNumber, persons, set
           showErrorMessage(personName)
         }
         else {
-          const newPersons = [...persons].concat({'name':personName, 'number':personNumber})
+          const newPerson = {'name':personName, 'number':personNumber} 
+          const newPersons = [...persons].concat(newPerson)
           setPersons(newPersons)
+          addToDB(newPerson)
           setNewName('')
           setNewNumber('')
         } 
+    }
+
+    const addToDB = (person) => {
+      axios.post('http://localhost:3001/persons', person)
     }
 
     const showErrorMessage = (personName) => {
