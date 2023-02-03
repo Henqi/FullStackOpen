@@ -2,24 +2,14 @@ import { useState, useEffect } from 'react'
 import NameFilter from './components/NameFilter'
 import AddContact from './components/AddContact'
 import ContactData from './components/ContactData'
-import axios from 'axios'
+import contactService from './services/contacts'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilter] = useState('')
-    
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-    }, []
-  )
   
-
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
   }
@@ -31,6 +21,14 @@ const App = () => {
   const handleNumberChange = (event) => {
       setNewNumber(event.target.value)
   }
+
+  useEffect(() => {
+    contactService
+      .getAll()
+      .then(allPersons => {
+        setPersons(allPersons)
+      })
+  }, [])
 
   return (
     <>
