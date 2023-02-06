@@ -6,12 +6,12 @@ const AddContact = ({ newName, setNewName, newNumber, setNewNumber, persons, set
         event.preventDefault()
         const personName = event.target[0].value.trim()
         const personNumber = event.target[1].value.trim()
+        const newPerson = {"name":personName, "number":personNumber} 
         
         if (persons.map(person => person.name.toLowerCase()).includes(personName.toLowerCase())) {
           showErrorMessage(personName)
         }
         else {
-          const newPerson = {"name":personName, "number":personNumber} 
           const newPersons = [...persons].concat(newPerson)
           addToDB(newPerson)
           setPersons(newPersons)
@@ -21,7 +21,7 @@ const AddContact = ({ newName, setNewName, newNumber, setNewNumber, persons, set
     }
 
     const addToDB = (person) => {
-      contactService.create(person)
+      contactService.createContact(person)
     }
 
     const showErrorMessage = (personName) => {

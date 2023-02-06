@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Button = ({ text, handleClick }) => {
-  return(
+  return (
     <button onClick={handleClick}>    
       {text}  
     </button>

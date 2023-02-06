@@ -10,7 +10,7 @@ const getAll = () => {
                 })
 }
 
-const create = (newObject) => {
+const createContact = (newObject) => {
   const request = axios.post(baseUrl, newObject)
   return request.then(response => response.data)
                 .catch(error => {
@@ -18,7 +18,15 @@ const create = (newObject) => {
                 })
 }
 
-const update = (id, newObject) => {
+const deleteContact = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
+                .catch(error => {
+                  console.log('deleteContact() failed!')
+                })
+}
+
+const updateContact = (id, newObject) => {
   const request = axios.put(`${baseUrl}/${id}`, newObject)
   return request.then(response => response.data)
                 .catch(error => {
@@ -26,4 +34,7 @@ const update = (id, newObject) => {
                 })
 }
 
-export default { getAll, create, update }
+export default {  getAll, 
+                  createContact, 
+                  updateContact, 
+                  deleteContact }

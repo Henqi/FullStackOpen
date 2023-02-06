@@ -49,7 +49,7 @@ const App = () => {
       </div>
       <h2>Numbers</h2>
       <div>
-        <ContactData filterName={filterName} persons={persons}/>
+        <ContactData filterName={filterName} persons={persons} setPersons={setPersons}/>
       </div>
     </>
   )
