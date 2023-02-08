@@ -3,12 +3,15 @@ import NameFilter from './components/NameFilter'
 import AddContact from './components/AddContact'
 import ContactData from './components/ContactData'
 import contactService from './services/contacts'
+import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
   
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
@@ -43,13 +46,18 @@ const App = () => {
                     newNumber={newNumber} 
                     setNewNumber={setNewNumber} 
                     persons={persons} 
-                    setPersons={setPersons}
-                    handleNameChange= {handleNameChange}
-                    handleNumberChange={handleNumberChange}/>
+                    setPersons={setPersons} 
+                    handleNameChange={handleNameChange} 
+                    handleNumberChange={handleNumberChange} 
+                    setSuccessMessage={setSuccessMessage}
+                    />
+      </div>
+      <div>
+        <Notification message={successMessage} setSuccessMessage={setSuccessMessage} />
       </div>
       <h2>Numbers</h2>
       <div>
-        <ContactData filterName={filterName} persons={persons} setPersons={setPersons}/>
+        <ContactData filterName={filterName} persons={persons} setPersons={setPersons} setSuccessMessage={setSuccessMessage} />
       </div>
     </>
   )
