@@ -1,11 +1,12 @@
 import contactService from './../services/contacts'
 
-const handleDelete = (personData, persons, setPersons) => {
-  if (window.confirm(`Delete contact information of ${personData.name}?`)) {
-    contactService.deleteContact(personData.id)
-                  .then(() => (setPersons(persons.filter(person => person.id !== personData.id)))
-                  )
-  } 
+const ContactData = ({ filterName, persons, setPersons }) => {
+  return (
+    <div>
+        {persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
+                .map(person => <PersonRow personData={person} persons={persons} setPersons={setPersons} key={person.name} /> )}
+    </div>
+  )
 }
 
 const PersonRow = ({ personData, persons, setPersons }) => {
@@ -17,6 +18,15 @@ const PersonRow = ({ personData, persons, setPersons }) => {
 }
 
 const DeleteButton = ({ personData, persons, setPersons }) => {
+  
+  const handleDelete = (personData, persons, setPersons) => {
+    if (window.confirm(`Delete contact information of ${personData.name}?`)) {
+      contactService.deleteContact(personData.id)
+                    .then(() => (setPersons(persons.filter(person => person.id !== personData.id)))
+                    )
+    } 
+  }
+  
   return (
     <button onClick={() => {handleDelete(personData, persons, setPersons)}}>
       Delete
@@ -24,13 +34,5 @@ const DeleteButton = ({ personData, persons, setPersons }) => {
   )
 }
 
-const ContactData = ({ filterName, persons, setPersons }) => {
-  return (
-      <div>
-          {persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
-                  .map(person => <PersonRow personData={person} persons={persons} setPersons={setPersons} key={person.name} /> )}
-      </div>
-  )
-}
 
 export default ContactData

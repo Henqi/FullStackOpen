@@ -36,5 +36,6 @@ const updateContact = (id, newObject) => {
 
 export default {  getAll, 
                   createContact, 
-                  updateContact, 
-                  deleteContact }
+                  deleteContact,
+                  updateContact
+                }

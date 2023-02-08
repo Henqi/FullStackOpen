@@ -6,27 +6,33 @@ const AddContact = ({ newName, setNewName, newNumber, setNewNumber, persons, set
         event.preventDefault()
         const personName = event.target[0].value.trim()
         const personNumber = event.target[1].value.trim()
-        const newPerson = {"name":personName, "number":personNumber} 
         
         if (persons.map(person => person.name.toLowerCase()).includes(personName.toLowerCase())) {
-          showErrorMessage(personName)
+          if (confirmReplace(personName)) {
+            const selectedPerson = persons.filter(person => person.name.toLowerCase() === personName.toLowerCase())[0]
+            const updatedPerson = {...selectedPerson, 'number':personNumber}
+            const updatedPersons = persons.map(person => (
+              person.name.toLowerCase() === personName.toLowerCase() ? {...selectedPerson, 'number':personNumber} : person)
+            ) 
+            contactService.updateContact(selectedPerson.id, updatedPerson)
+                          .then(setPersons(updatedPersons))
+          }
         }
+
         else {
+          const newPerson = {'name':personName, 'number':personNumber} 
           const newPersons = [...persons].concat(newPerson)
-          addToDB(newPerson)
+          contactService.createContact(newPerson)
           setPersons(newPersons)
-          setNewName('')
-          setNewNumber('')
         } 
+
+        setNewName('')
+        setNewNumber('')
     }
 
-    const addToDB = (person) => {
-      contactService.createContact(person)
-    }
-
-    const showErrorMessage = (personName) => {
+    const confirmReplace = (personName) => {
         return (
-            alert(`${personName} is already added to phonebook!`)
+            window.confirm(`${personName} is already added to phonebook! Replace the number with a new one?`)
         )
     }
     
