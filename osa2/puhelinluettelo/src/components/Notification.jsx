@@ -1,16 +1,19 @@
-const Notification = ({ message, setSuccessMessage }) => {
+const Notification = ({ message, setMessage, type }) => {
     if (message === null) {
       return null
     }
   
     const handleMessageChange = () => {
-      setTimeout(() => {
-        setSuccessMessage(null)
+        setTimeout(() => {
+        setMessage(null)
       }, 3000)
     }
 
+    let messageType
+    (type === 'success') ? messageType = 'success' : messageType = 'error'  
+  
     return (
-      <div className="success" onChange={handleMessageChange()}>
+      <div className={messageType} onChange={handleMessageChange()}>
         {message} 
       </div>
     )

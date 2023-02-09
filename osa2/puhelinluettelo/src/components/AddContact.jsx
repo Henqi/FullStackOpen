@@ -8,7 +8,8 @@ const AddContact = ({ newName,
                       setPersons, 
                       handleNameChange, 
                       handleNumberChange,
-                      setSuccessMessage }) => {
+                      setSuccessMessage, 
+                      setErrorMessage }) => {
 
   const addNewPerson = (event) => {
       event.preventDefault()
@@ -23,18 +24,23 @@ const AddContact = ({ newName,
             person.name.toLowerCase() === personName.toLowerCase() ? updatedPerson : person)
           ) 
           contactService.updateContact(selectedPerson.id, updatedPerson)
-                        .then(setPersons(updatedPersons))
-          setSuccessMessage(`Number of ${personName} was updated to ${personNumber}`)
+                        .then(response => {
+                          setPersons(updatedPersons)
+                          setSuccessMessage(`Number of ${personName} was updated to ${personNumber}`)
+                        })
+                        .catch(error => {
+                          setErrorMessage(`Contact information of ${personName} has been deleted from the server`)
+                          setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))
+                        })
         }
       }
 
       else {
-        console.log('setSuccessMessage else:', setSuccessMessage)
-        const newPerson = {'name':personName, 'number':personNumber} 
-        const newPersons = [...persons].concat(newPerson)
-        contactService.createContact(newPerson)
-        setPersons(newPersons)
-        setSuccessMessage(`${personName} was added to the phonebook`)
+        contactService.createContact({'name':personName, 'number':personNumber} )
+          .then(response => {
+            setPersons([...persons].concat(response))
+          })
+          .then(setSuccessMessage(`${personName} was added to the phonebook`))
       } 
 
       setNewName('')

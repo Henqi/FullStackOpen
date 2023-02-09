@@ -12,6 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
   
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
@@ -50,14 +52,21 @@ const App = () => {
                     handleNameChange={handleNameChange} 
                     handleNumberChange={handleNumberChange} 
                     setSuccessMessage={setSuccessMessage}
+                    setErrorMessage={setErrorMessage}
                     />
       </div>
       <div>
-        <Notification message={successMessage} setSuccessMessage={setSuccessMessage} />
+      {(successMessage) 
+        ? <Notification message={successMessage} setMessage={setSuccessMessage} type={'success'}/> 
+        : <Notification message={errorMessage} setMessage={setErrorMessage} type={'error'}/>}
       </div>
       <h2>Numbers</h2>
       <div>
-        <ContactData filterName={filterName} persons={persons} setPersons={setPersons} setSuccessMessage={setSuccessMessage} />
+      <ContactData  filterName={filterName} 
+                    persons={persons} 
+                    setPersons={setPersons} 
+                    setSuccessMessage={setSuccessMessage} 
+                    setErrorMessage={setErrorMessage} />
       </div>
     </>
   )
