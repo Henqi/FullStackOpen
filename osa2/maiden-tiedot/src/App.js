@@ -1,52 +1,40 @@
 import { useState, useEffect } from 'react'
-import countryData from './services/countryData'
-
+import countryDataService from './services/countryData'
+import CountryDisplay from './components/CountryDisplay'
 
 function App() {
 
-  const [country, setCountry] = useState('')
-  const [displayCountries, setDisplayCountries] = useState([])
-
+  const [countryData, setCountryData] = useState([])
+  const [countryFilter, setCountryFilter] = useState('')
+  const filterLimit = 10
 
   useEffect(() => {
-    countryData.getAll()
+    countryDataService.getAll()
                .then(response => {
-                setDisplayCountries(response.map(country => country = country.name.official))
+                setCountryData(response)
                })
-  }, [country])
-
-
-  const CountryDisplay = ({ displayCountries }) => {
-    return (
-      displayCountries.map(country => {
-        <li>
-          country
-        </li>
-      })
-    )
-  }
+  }, [])
 
   const handleChange = (event) => {
-    setCountry(event.target.value)
+    setCountryFilter(event.target.value)
   }
-
 
   return (
     <>
       <div>
-        Find countries: <input value={country} onChange={handleChange} />
+        Find countries: <input value={countryFilter} onChange={handleChange} />
       </div>
       <div>
-          Too many countries! Try narrowing down the search parameters
+          {(countryData.filter(country => country.name.official.toLowerCase().includes(countryFilter.toLowerCase())).length > filterLimit) 
+                            ? 'Too many countries! Try narrowing down the search parameters' 
+                            : '' 
+          }
       </div>
       <div>
-        <CountryDisplay displayCountries={displayCountries}/> 
+        <CountryDisplay countryData={countryData} countryFilter={countryFilter} /> 
       </div>
     </> 
   )
-
-
-
 }
 
 export default App;
