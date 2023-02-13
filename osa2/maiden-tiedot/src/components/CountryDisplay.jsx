@@ -20,7 +20,7 @@ const CountryDisplay = ({ countryData, countryFilter }) => {
                 </div>
                 <div>
                     <p> <b> Capital: </b> {displayedCountries.map(country => country.capital)}</p>
-                    <p> <b> Area: </b> {displayedCountries.map(country => country.area)}</p>
+                    <p> <b> Area: </b> {displayedCountries.map(country => country.area)} km²</p>
                 </div>
                 <div>
                     <h2> Languages: </h2>
@@ -40,6 +40,14 @@ const CountryDisplay = ({ countryData, countryFilter }) => {
             </>
         )
       }
+
+      if (displayedCountries.length > 10) {
+        return (
+            <div>
+                Too many countries! Try narrowing down the search parameters
+            </div>
+        )
+    }
 
     else {
         return (

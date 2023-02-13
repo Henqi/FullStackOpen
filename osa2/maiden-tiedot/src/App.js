@@ -25,12 +25,6 @@ function App() {
         Find countries: <input value={countryFilter} onChange={handleChange} />
       </div>
       <div>
-          {(countryData.filter(country => country.name.official.toLowerCase().includes(countryFilter.toLowerCase())).length > filterLimit) 
-                            ? 'Too many countries! Try narrowing down the search parameters' 
-                            : '' 
-          }
-      </div>
-      <div>
         <CountryDisplay countryData={countryData} countryFilter={countryFilter} /> 
       </div>
     </> 
