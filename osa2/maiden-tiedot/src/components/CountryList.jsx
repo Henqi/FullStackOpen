@@ -1,7 +1,13 @@
-import CountryScreen from "../components/CountryScreen"
+import CountryScreen from "./CountryScreen"
+import WeatherScreen from "./WeatherScreen"
 
-const CountryDisplay = ({ countryData, countryFilter, setCountryFilter }) => {
-    
+const CountryList = ({  countryData,
+                        countryFilter,
+                        setCountryFilter,
+                        weather,
+                        setWeather }) => {
+
+    const filterLimit = 10
     const displayedCountries = countryData.filter(country => country.name.official.toLowerCase().includes(countryFilter.toLowerCase()))
 
     const handleShowCountry = (country) => {
@@ -17,13 +23,16 @@ const CountryDisplay = ({ countryData, countryFilter, setCountryFilter }) => {
     }
 
     if (displayedCountries.length === 1) {
-        const selectedCountry = displayedCountries[Object.keys(displayedCountries)] 
-        return (
-            <CountryScreen country={selectedCountry} />
+        const selected = displayedCountries[Object.keys(displayedCountries)]
+        return ( 
+            <div>
+                <CountryScreen country={selected} />
+                <WeatherScreen selectedCountry={selected} weather={weather} setWeather={setWeather} />
+            </div>
         )
-      }
-
-      if (displayedCountries.length > 10) {
+    }
+        
+    if (displayedCountries.length > filterLimit) {
         return (
             <div>
                 Too many countries! Try narrowing down the search parameters
@@ -35,14 +44,14 @@ const CountryDisplay = ({ countryData, countryFilter, setCountryFilter }) => {
         return (
             <>
                 {displayedCountries.map(country => 
-                                        <>
+                                        <div key={country.cca3} >
                                             <li key={country.name.official}>
                                                 {country.name.official}
                                                 <button onClick={() => handleShowCountry(country)}>
                                                     show
                                                 </button>
                                             </li>
-                                        </>
+                                        </div>
                                     )
                 }
           </>
@@ -50,4 +59,4 @@ const CountryDisplay = ({ countryData, countryFilter, setCountryFilter }) => {
     }
 }
 
-export default CountryDisplay
+export default CountryList

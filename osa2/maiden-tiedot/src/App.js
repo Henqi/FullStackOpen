@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react'
 import countryDataService from './services/countryData'
-import CountryDisplay from './components/CountryDisplay'
+import CountryList from './components/CountryList'
 
 function App() {
 
   const [countryData, setCountryData] = useState([])
   const [countryFilter, setCountryFilter] = useState('')
-  const filterLimit = 10
+  const [weather, setWeather] = useState([])
+
 
   useEffect(() => {
     countryDataService.getAll()
-               .then(response => {
-                setCountryData(response)
-               })
+                      .then(response => {
+                        setCountryData(response)
+                      })
   }, [])
 
   const handleChange = (event) => {
@@ -25,7 +26,12 @@ function App() {
         Find countries: <input value={countryFilter} onChange={handleChange} />
       </div>
       <div>
-        <CountryDisplay countryData={countryData} countryFilter={countryFilter} setCountryFilter={setCountryFilter} /> 
+        <CountryList  countryData={countryData} 
+                      countryFilter={countryFilter}
+                      setCountryFilter={setCountryFilter}
+                      weather={weather}
+                      setWeather={setWeather}
+                      /> 
       </div>
     </> 
   )

@@ -12,8 +12,8 @@ const CountryScreen = ({ country }) => {
                 <h2> Languages: </h2>
                 {Object.keys(country.languages).map(key => country.languages[key])
                     .map(language => 
-                        <ul>
-                            <li key={language}>
+                        <ul key={`${country.cca2}_${language}`}>
+                            <li key={`${country}${language}`}>
                                 {language}
                             </li>
                         </ul>
