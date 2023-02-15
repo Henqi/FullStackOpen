@@ -18,7 +18,7 @@ const ContactData = ({ filterName, persons, setPersons, setSuccessMessage, setEr
 
 const PersonRow = ({ personData, persons, setPersons, setSuccessMessage, setErrorMessage }) => {
   return (
-    <li>
+    <li key={personData.id}>
       {personData.name} {personData.number} <DeleteButton personData={personData} 
                                                           persons={persons} 
                                                           setPersons={setPersons}
