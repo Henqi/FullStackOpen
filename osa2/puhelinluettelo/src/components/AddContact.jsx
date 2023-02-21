@@ -40,7 +40,13 @@ const AddContact = ({ newName,
           .then(response => {
             setPersons([...persons].concat(response))
           })
-          .then(setSuccessMessage(`${personName} was added to the phonebook`))
+          .then(response => {
+            setSuccessMessage(`${personName} was added to the phonebook`)
+          })
+          .catch(error => {
+            console.log(error.response.data.error)
+            setErrorMessage(error.response.data.error)
+          })
       } 
 
       setNewName('')
