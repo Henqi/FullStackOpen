@@ -21,8 +21,8 @@ const AddContact = ({ newName,
           const selectedPerson = persons.filter(person => person.name.toLowerCase() === personName.toLowerCase())[0]
           const updatedPerson = {...selectedPerson, 'number':personNumber}
           const updatedPersons = persons.map(person => (
-            person.name.toLowerCase() === personName.toLowerCase() ? updatedPerson : person)
-          ) 
+            person.name.toLowerCase() === personName.toLowerCase() ? updatedPerson : person
+          )) 
           contactService.updateContact(selectedPerson.id, updatedPerson)
                         .then(response => {
                           setPersons(updatedPersons)
