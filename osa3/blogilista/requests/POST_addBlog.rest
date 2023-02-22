@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "author": "Henri",
-    "title": "The Summoner's Rift guide",
-    "url": "riotgames.com",
-    "likes": 3
+    "title": "lol",
+    "url": "lol.com",
+    "likes": 2
 }
