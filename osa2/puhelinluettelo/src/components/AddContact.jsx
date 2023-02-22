@@ -29,8 +29,16 @@ const AddContact = ({ newName,
                           setSuccessMessage(`Number of ${personName} was updated to ${personNumber}`)
                         })
                         .catch(error => {
-                          setErrorMessage(`Contact information of ${personName} has been deleted from the server`)
-                          setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))
+                          const message = error.response.data.error
+                          console.log(error)
+                          console.log(message)
+                          if (message.includes("Validation failed")) {
+                            setErrorMessage(message)
+                          }
+                          else {
+                            setErrorMessage(`Contact information of ${personName} has been deleted from the server`)
+                            setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))  
+                          }
                         })
         }
       }
