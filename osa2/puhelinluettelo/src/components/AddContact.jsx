@@ -30,8 +30,6 @@ const AddContact = ({ newName,
                         })
                         .catch(error => {
                           const message = error.response.data.error
-                          console.log(error)
-                          console.log(message)
                           if (message.includes("Validation failed")) {
                             setErrorMessage(message)
                           }
