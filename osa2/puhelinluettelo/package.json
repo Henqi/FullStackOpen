@@ -18,7 +18,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server -p3001 --watch db.json",
-    "eslint": "eslint ."
+    "lint": "eslint --ext .jsx .",
+    "lint-fix": "npm run lint -- --fix ."
+
   },
   "eslintConfig": {
     "extends": [

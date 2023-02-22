@@ -7,24 +7,24 @@ import Notification from './components/Notification'
 import './index.css'
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  
+
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
   }
 
   const handleNameChange = (event) => {
-      setNewName(event.target.value)
+    setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
-      setNewNumber(event.target.value)
+    setNewNumber(event.target.value)
   }
 
   useEffect(() => {
@@ -38,35 +38,35 @@ const App = () => {
   return (
     <>
       <h2>Phonebook</h2>
-        <NameFilter filterName={filterName}
-                    setFilter={setFilter}  
-                    handleFilterChange={handleFilterChange}/>
+      <NameFilter filterName={filterName}
+        setFilter={setFilter}
+        handleFilterChange={handleFilterChange}/>
       <div>
-      <h2>Add new contact</h2>
-        <AddContact newName={newName} 
-                    setNewName={setNewName} 
-                    newNumber={newNumber} 
-                    setNewNumber={setNewNumber} 
-                    persons={persons} 
-                    setPersons={setPersons} 
-                    handleNameChange={handleNameChange} 
-                    handleNumberChange={handleNumberChange} 
-                    setSuccessMessage={setSuccessMessage}
-                    setErrorMessage={setErrorMessage}
-                    />
+        <h2>Add new contact</h2>
+        <AddContact newName={newName}
+          setNewName={setNewName}
+          newNumber={newNumber}
+          setNewNumber={setNewNumber}
+          persons={persons}
+          setPersons={setPersons}
+          handleNameChange={handleNameChange}
+          handleNumberChange={handleNumberChange}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
       </div>
       <div>
-      {(successMessage) 
-        ? <Notification message={successMessage} setMessage={setSuccessMessage} type={'success'}/> 
-        : <Notification message={errorMessage} setMessage={setErrorMessage} type={'error'}/>}
+        {(successMessage)
+          ? <Notification message={successMessage} setMessage={setSuccessMessage} type={'success'}/>
+          : <Notification message={errorMessage} setMessage={setErrorMessage} type={'error'}/>}
       </div>
       <h2>Numbers</h2>
       <div>
-      <ContactData  filterName={filterName} 
-                    persons={persons} 
-                    setPersons={setPersons} 
-                    setSuccessMessage={setSuccessMessage} 
-                    setErrorMessage={setErrorMessage} />
+        <ContactData  filterName={filterName}
+          persons={persons}
+          setPersons={setPersons}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage} />
       </div>
     </>
   )

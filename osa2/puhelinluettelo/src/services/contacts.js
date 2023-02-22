@@ -22,8 +22,8 @@ const updateContact = (id, newObject) => {
   return request.then(response => response.data)
 }
 
-export default {  getAll, 
-                  createContact, 
-                  deleteContact,
-                  updateContact
-                }
+export default {  getAll,
+  createContact,
+  deleteContact,
+  updateContact
+}

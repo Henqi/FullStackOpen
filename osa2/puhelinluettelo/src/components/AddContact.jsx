@@ -1,83 +1,83 @@
 import contactService from './../services/contacts'
 
-const AddContact = ({ newName, 
-                      setNewName, 
-                      newNumber, 
-                      setNewNumber, 
-                      persons, 
-                      setPersons, 
-                      handleNameChange, 
-                      handleNumberChange,
-                      setSuccessMessage, 
-                      setErrorMessage }) => {
+const AddContact = ({ newName,
+  setNewName,
+  newNumber,
+  setNewNumber,
+  persons,
+  setPersons,
+  handleNameChange,
+  handleNumberChange,
+  setSuccessMessage,
+  setErrorMessage }) => {
 
   const addNewPerson = (event) => {
-      event.preventDefault()
-      const personName = event.target[0].value.trim()
-      const personNumber = event.target[1].value.trim()
-      
-      if (persons.map(person => person.name.toLowerCase()).includes(personName.toLowerCase())) {
-        if (confirmReplace(personName)) {
-          const selectedPerson = persons.filter(person => person.name.toLowerCase() === personName.toLowerCase())[0]
-          const updatedPerson = {...selectedPerson, 'number':personNumber}
-          const updatedPersons = persons.map(person => (
-            person.name.toLowerCase() === personName.toLowerCase() ? updatedPerson : person
-          )) 
-          contactService.updateContact(selectedPerson.id, updatedPerson)
-                        .then(response => {
-                          setPersons(updatedPersons)
-                          setSuccessMessage(`Number of ${personName} was updated to ${personNumber}`)
-                        })
-                        .catch(error => {
-                          const message = error.response.data.error
-                          if (message.includes("Validation failed")) {
-                            setErrorMessage(message)
-                          }
-                          else {
-                            setErrorMessage(`Contact information of ${personName} has been deleted from the server`)
-                            setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))
-                          }
-                        })
-        }
-      }
+    event.preventDefault()
+    const personName = event.target[0].value.trim()
+    const personNumber = event.target[1].value.trim()
 
-      else {
-        contactService.createContact({'name':personName, 'number':personNumber} )
+    if (persons.map(person => person.name.toLowerCase()).includes(personName.toLowerCase())) {
+      if (confirmReplace(personName)) {
+        const selectedPerson = persons.filter(person => person.name.toLowerCase() === personName.toLowerCase())[0]
+        const updatedPerson = { ...selectedPerson, 'number':personNumber }
+        const updatedPersons = persons.map(person => (
+          person.name.toLowerCase() === personName.toLowerCase() ? updatedPerson : person
+        ))
+        contactService.updateContact(selectedPerson.id, updatedPerson)
           .then(response => {
-            setPersons([...persons].concat(response))
-          })
-          .then(response => {
-            setSuccessMessage(`${personName} was added to the phonebook`)
+            setPersons(updatedPersons)
+            setSuccessMessage(`Number of ${personName} was updated to ${personNumber}`)
           })
           .catch(error => {
-            console.log(error.response.data.error)
-            setErrorMessage(error.response.data.error)
+            const message = error.response.data.error
+            if (message.includes("Validation failed")) {
+              setErrorMessage(message)
+            }
+            else {
+              setErrorMessage(`Contact information of ${personName} has been deleted from the server`)
+              setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))
+            }
           })
-      } 
+      }
+    }
 
-      setNewName('')
-      setNewNumber('')
+    else {
+      contactService.createContact({ 'name':personName, 'number':personNumber } )
+        .then(response => {
+          setPersons([...persons].concat(response))
+        })
+        .then(response => {
+          setSuccessMessage(`${personName} was added to the phonebook`)
+        })
+        .catch(error => {
+          console.log(error.response.data.error)
+          setErrorMessage(error.response.data.error)
+        })
+    }
+
+    setNewName('')
+    setNewNumber('')
   }
 
   const confirmReplace = (personName) => {
-      return (
-          window.confirm(`${personName} is already added to phonebook! Replace the number with a new one?`)
-      )
+    return (
+      window.confirm(`${personName} is already added to phonebook! Replace the number with a new one?`)
+    )
   }
-    
+
   return (
-      <form onSubmit={addNewPerson}>
-        <div>
+    <form onSubmit={addNewPerson}>
+      <div>
           Name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
+      </div>
+      <div>
           Phone: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
   )
-}        
-        
+}
+
 export default AddContact
