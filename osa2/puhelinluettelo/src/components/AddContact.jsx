@@ -35,7 +35,7 @@ const AddContact = ({ newName,
                           }
                           else {
                             setErrorMessage(`Contact information of ${personName} has been deleted from the server`)
-                            setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))  
+                            setPersons(updatedPersons.filter(person => person.id !== selectedPerson.id))
                           }
                         })
         }
