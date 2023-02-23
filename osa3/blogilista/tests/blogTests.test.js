@@ -1,5 +1,5 @@
 const dummy = require('../utils/list_helper').dummy
-const totalLikes = require('../utils/total_likes').totalLikes
+const { totalLikes, favouriteBlog } = require('../utils/blog_likes_helper')
 
 const blogsOne = [
   {
@@ -11,6 +11,7 @@ const blogsOne = [
     __v: 0
   }
 ]
+
 const blogsOneZeroLikes = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -21,6 +22,7 @@ const blogsOneZeroLikes = [
     __v: 0
   }
 ]
+
 const blogsMany = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -72,6 +74,15 @@ const blogsMany = [
   }  
 ]
 
+const blogMostLikes = {
+  _id: "5a422b3a1b54a676234d17f9",
+  title: "Canonical string reduction",
+  author: "Edsger W. Dijkstra",
+  url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+  likes: 12,
+  __v: 0
+}
+
 test('dummy returns 1', () => {
   const blogs = blogsOne
   const result = dummy(blogs)
@@ -87,21 +98,33 @@ describe('blog likes', () => {
   })
   
   test('amout of likes match with 1 blog (0 likes)', () => {
-    const blogs = blogsOneZeroLikes
-    const result = totalLikes(blogs)
+    const result = totalLikes(blogsOneZeroLikes)
     expect(result).toBe(0)
   })
 
   test('amout of likes match with 1 blog', () => {
-    const blogs = blogsOne
-    const result = totalLikes(blogs)
+    const result = totalLikes(blogsOne)
     expect(result).toBe(7)
   })
   
   test('amout of likes match with many blogs', () => {
-    const blogs= blogsMany
-    const result = totalLikes(blogs)
+    const result = totalLikes(blogsMany)
     expect(result).toBe(34)
+  })
+
+})
+
+
+describe('favourite blog', () => {
+
+  test('favourite blog based on likes amount', () => {
+    const result = favouriteBlog(blogsMany)
+    expect(result).toEqual(blogMostLikes)
+  })
+
+  test('favourite blog based on likes amount (1 blog input)', () => {
+    const result = favouriteBlog(blogsOne)
+    expect(result).toEqual(blogsOne[0])
   })
 
 })
