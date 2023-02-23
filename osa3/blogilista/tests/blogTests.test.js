@@ -83,10 +83,13 @@ const blogMostLikes = {
   __v: 0
 }
 
-test('dummy returns 1', () => {
-  const blogs = blogsOne
-  const result = dummy(blogs)
-  expect(result).toBe(1)
+describe('dummy test', () => {
+  
+  test('dummy returns 1', () => {
+    const result = dummy(blogsOne)
+    expect(result).toBe(1)
+  })
+  
 })
 
 describe('blog likes', () => {
