@@ -1,5 +1,5 @@
 const dummy = require('../utils/list_helper').dummy
-const { totalLikes, favouriteBlog } = require('../utils/blog_likes_helper')
+const blog_helper = require('../utils/blog_helper')
 
 const blogsOne = [
   {
@@ -83,6 +83,17 @@ const blogMostLikes = {
   __v: 0
 }
 
+const blogsOneMostAuthored = {
+  author: "Michael Chan",
+  blogs: 1
+}
+
+const blogsManyMostAuthored = {
+  author: "Robert C. Martin",
+  blogs: 3,
+}  
+
+
 describe('dummy test', () => {
   
   test('dummy returns 1', () => {
@@ -96,38 +107,61 @@ describe('blog likes', () => {
 
   test('empty blog list has 0 likes', () => {
     const blogs= []
-    const result = totalLikes(blogs)
+    const result = blog_helper.totalLikes(blogs)
     expect(result).toBe(0)
   })
   
   test('amout of likes match with 1 blog (0 likes)', () => {
-    const result = totalLikes(blogsOneZeroLikes)
+    const result = blog_helper.totalLikes(blogsOneZeroLikes)
     expect(result).toBe(0)
   })
 
-  test('amout of likes match with 1 blog', () => {
-    const result = totalLikes(blogsOne)
+  test('amout of likes match (1 blog input)', () => {
+    const result = blog_helper.totalLikes(blogsOne)
     expect(result).toBe(7)
   })
   
-  test('amout of likes match with many blogs', () => {
-    const result = totalLikes(blogsMany)
+  test('amout of likes match (many blogs input)', () => {
+    const result = blog_helper.totalLikes(blogsMany)
     expect(result).toBe(34)
   })
 
 })
 
-
 describe('favourite blog', () => {
-
-  test('favourite blog based on likes amount', () => {
-    const result = favouriteBlog(blogsMany)
-    expect(result).toEqual(blogMostLikes)
+  
+  test('favourite blog based on likes amount (0 blog input)', () => {
+    const result = blog_helper.favouriteBlog([])
+    expect(result).toEqual({})
   })
 
   test('favourite blog based on likes amount (1 blog input)', () => {
-    const result = favouriteBlog(blogsOne)
+    const result = blog_helper.favouriteBlog(blogsOne)
     expect(result).toEqual(blogsOne[0])
+  })
+
+  test('favourite blog based on likes amount(many blogs input)', () => {
+    const result = blog_helper.favouriteBlog(blogsMany)
+    expect(result).toEqual(blogMostLikes)
+  })
+
+})
+
+describe('author with most blogs', () => {
+
+  test('author with most blogs (0 blogs input)', () => {
+    const result = blog_helper.mostBlogs([])
+    expect(result).toEqual({})
+  })
+  
+  test('author with most blogs (1 blog input)', () => {
+    const result = blog_helper.mostBlogs(blogsOne)
+    expect(result).toEqual(blogsOneMostAuthored)
+  })
+
+  test('author with most blogs (many blogs input)', () => {
+    const result = blog_helper.mostBlogs(blogsMany)
+    expect(result).toEqual(blogsManyMostAuthored)
   })
 
 })
