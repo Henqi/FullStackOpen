@@ -61,7 +61,7 @@ const blogsMany = [
     title: "TDD harms architecture",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
+    likes: 11,
     __v: 0
   },
   {
@@ -93,6 +93,15 @@ const blogsManyMostAuthored = {
   blogs: 3,
 }  
 
+const blogsOneMostLikes = {
+  author: "Michael Chan",
+  likes: 7
+}
+
+const blogsManyMostLikes = {
+  author: "Robert C. Martin",
+  likes: 21,
+}  
 
 describe('dummy test', () => {
   
@@ -123,7 +132,7 @@ describe('blog likes', () => {
   
   test('amout of likes match (many blogs input)', () => {
     const result = blog_helper.totalLikes(blogsMany)
-    expect(result).toBe(34)
+    expect(result).toBe(45)
   })
 
 })
@@ -162,6 +171,25 @@ describe('author with most blogs', () => {
   test('author with most blogs (many blogs input)', () => {
     const result = blog_helper.mostBlogs(blogsMany)
     expect(result).toEqual(blogsManyMostAuthored)
+  })
+
+})
+
+describe('author with most likes', () => {
+
+  test('author with most likes (0 blogs input)', () => {
+    const result = blog_helper.mostLikes([])
+    expect(result).toEqual({})
+  })
+  
+  test('author with most likes (1 blog input)', () => {
+    const result = blog_helper.mostLikes(blogsOne)
+    expect(result).toEqual(blogsOneMostLikes)
+  })
+
+  test('author with most likes (many blogs input)', () => {
+    const result = blog_helper.mostLikes(blogsMany)
+    expect(result).toEqual(blogsManyMostLikes)
   })
 
 })
