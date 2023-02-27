@@ -5,7 +5,6 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const testHelper = require('../tests/test_helper')
 
-
 describe('API tests', () => {
 
   test('the blogs are returned in JSON format', async () => {
@@ -61,6 +60,22 @@ describe('API tests', () => {
     await api.post('/api/blogs')
       .send(blogNoLikes)
       .expect(400) 
+  })
+
+  test('blogs can be deleted by id property', async () => {
+    const startState = await api.get('/api/blogs')
+    await api.delete(`/api/blogs/${startState.body[0].id}`)
+      .expect(204)
+
+    const endState = await api.get('/api/blogs') 
+    expect(endState.body).toHaveLength(testHelper.blogsMany.length-1)
+    expect(endState.body).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(
+          startState.body[0]
+        )
+      ])
+    )
   })
 
 })

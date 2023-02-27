@@ -1,6 +1,7 @@
 const { MONGODB_URI } = require('./utils/config')
 const logger = require('./utils/logger')
 const express = require('express')
+require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const blogsRouter = require('./contollers/blog')
