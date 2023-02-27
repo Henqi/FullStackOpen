@@ -1,9 +1,17 @@
 const mongoose = require('mongoose')
+const {MONGODB_URI} = require('../utils/config')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const testHelper = require('../tests/test_helper')
+
+beforeEach(async () => {
+  await mongoose.connection.close()
+  await mongoose.connect(MONGODB_URI)
+  await Blog.deleteMany({})
+  await Blog.insertMany(testHelper.blogsMany)
+})
 
 describe('API tests', () => {
 
@@ -78,11 +86,17 @@ describe('API tests', () => {
     )
   })
 
-})
+  test('blogs can be modified with PUT according to id property', async () => {
+    const startState = await api.get('/api/blogs')
+    const firstBlogId = startState.body[0].id
+    await api.put(`/api/blogs/${firstBlogId}`)
+      .send({likes:420})
 
-beforeEach(async () => {
-  await Blog.deleteMany({})
-  await Blog.insertMany(testHelper.blogsMany)
+    const endState = await api.get('/api/blogs') 
+    const firstBlogIndex = endState.body.findIndex(obj => obj.id === firstBlogId)
+    expect(endState.body[firstBlogIndex].likes).toEqual(420)
+  })
+
 })
 
 afterAll(async () => {
