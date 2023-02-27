@@ -20,6 +20,11 @@ describe('API tests', () => {
     expect(response.body).toHaveLength(testHelper.blogsMany.length)
   })
 
+  test('the key property of the blog is named "id"', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined() 
+  })
+
 })
 
 beforeEach(async () => {
