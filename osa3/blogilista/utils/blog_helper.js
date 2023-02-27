@@ -44,7 +44,7 @@ const mostLikes = (blogs) => {
   const authorKeys = _.keysIn(authorsSorted)
   const likesPerAuthor = authorKeys.map(key => authorsSorted[key])
   const sumOfLikes = likesPerAuthor.map(blogs => blogs.map(blog => blog.likes))
-                                   .map(likes => likes.reduce((acc, curr) => acc+curr))
+    .map(likes => likes.reduce((acc, curr) => acc+curr))
   const maxLikesIndex = sumOfLikes.indexOf(_.max(sumOfLikes)) 
 
   return {
