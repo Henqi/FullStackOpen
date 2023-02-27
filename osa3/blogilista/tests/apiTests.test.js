@@ -44,6 +44,15 @@ describe('API tests', () => {
       ])
     )
   })
+
+  test('if "likes" property is undefined, set likes to 0', async () => {
+    let blogNoLikes = testHelper.blogsOneNew
+    blogNoLikes.likes = undefined
+    const response = await api.post('/api/blogs')
+      .send(blogNoLikes)
+    expect(response.body.likes).toBe(0) 
+  })
+
 })
 
 beforeEach(async () => {
