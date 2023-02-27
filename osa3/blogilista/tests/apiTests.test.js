@@ -53,6 +53,16 @@ describe('API tests', () => {
     expect(response.body.likes).toBe(0) 
   })
 
+  test('if title or url fields are empty respond with http 400', async () => {
+    let blogNoLikes = testHelper.blogsOneNew
+    blogNoLikes.title = undefined
+    blogNoLikes.url = undefined
+
+    await api.post('/api/blogs')
+      .send(blogNoLikes)
+      .expect(400) 
+  })
+
 })
 
 beforeEach(async () => {
