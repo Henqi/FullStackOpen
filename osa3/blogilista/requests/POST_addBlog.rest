@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
 
-{
-    "author": "Orc",
-    "title": "kek",
-    "url": "kek.com",
-    "likes": 2
-}
+    {
+    "title": "React patterns",
+    "author": "Michael Chan",
+    "url": "https://reactpatterns.com/",
+    "likes": 7,
+    "__v": 0
+  }

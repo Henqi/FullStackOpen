@@ -24,7 +24,26 @@ describe('API tests', () => {
     const response = await api.get('/api/blogs')
     expect(response.body[0].id).toBeDefined() 
   })
+  
+  test('blogs can be added', async () => {
+    const startState = await api.get('/api/blogs')
+    expect(startState.body).toHaveLength(testHelper.blogsMany.length)
+    
+    await api.post('/api/blogs')
+      .send(testHelper.blogsOneNew)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
+    const response = await api.get('/api/blogs') 
+    expect(response.body).toHaveLength(testHelper.blogsMany.length+1)
+    expect(response.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(
+          testHelper.blogsOneNew
+        )
+      ])
+    )
+  })
 })
 
 beforeEach(async () => {
