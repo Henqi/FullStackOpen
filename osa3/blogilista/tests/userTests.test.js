@@ -53,6 +53,17 @@ describe('User tests', () => {
     )
   })
 
+  test('if username is duplicate, return error', async () => {
+    const user = testHelper.usersOneNew
+    await api.post('/api/users')
+      .send(user)
+      .expect(201)
+
+    await api.post('/api/users')
+      .send(user)
+      .expect(400)
+  })
+
   test('if username is undefined, return error', async () => {
     await api.post('/api/users')
       .send(testHelper.usersOneNewNoUsername)
@@ -74,17 +85,6 @@ describe('User tests', () => {
   test('if password is shorter than 3 characters, return error', async () => {
     await api.post('/api/users')
       .send(testHelper.usersOneNewShortPw)
-      .expect(400)
-  })
-
-  test('if username is duplicate, return error', async () => {
-    const user = testHelper.usersOneNew
-    await api.post('/api/users')
-      .send(user)
-      .expect(201)
-
-    await api.post('/api/users')
-      .send(user)
       .expect(400)
   })
 
