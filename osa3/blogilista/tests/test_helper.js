@@ -107,38 +107,56 @@ const usersMany = [
   },
 ]
 
-const usersOneNew =
-  {
-    "username": "Aku",
-    "name": "Aku Ankka",
-    "password": "kvak kvak"
-  }
+const usersOneNew = {
+  "username": "Aku",
+  "name": "Aku Ankka",
+  "password": "kvak kvak"
+}
 
-const usersOneNewShortUsername =
+const usersOneNewShortUsername = {
+  "username": "Ak",
+  "name": "Aku Ankka",
+  "password": "kvak kvak"
+}
+
+const usersOneNewShortPw = {
+  "username": "Aku",
+  "name": "Aku Ankka",
+  "password": "kv"
+}
+
+const usersOneNewNoUsername = {
+  "name": "Aku Ankka",
+  "password": "kvak kvak"
+}
+
+const usersOneNewNoPw = {
+  "username": "Aku",
+  "name": "Aku Ankka",
+}
+
+const usersOneWithBlogs = {
+  "username": "Anri",
+  "name": "Henri P",
+  "blogs": [
     {
-      "username": "Ak",
-      "name": "Aku Ankka",
-      "password": "kvak kvak"
+      "title": "Irelia how-to",
+      "author": "Pekka Puupää",
+      "url": "https://ireliacarriesu/",
+      "likes": 12,
+      "user": "63fdceb278b24b2a7a21786d",
+      "id": "63fe1966393240ef48b9d5ac"
+    },
+    {
+      "title": "splitpush",
+      "author": "broken bones",
+      "url": "https://example.com",
+      "likes": 2,
+      "user": "63fdceb278b24b2a7a21786d",
+      "id": "63fe19ad393240ef48b9d5b4"
     }
-
-const usersOneNewShortPw =
-  {
-    "username": "Aku",
-    "name": "Aku Ankka",
-    "password": "kv"
-  }
-
-const usersOneNewNoUsername =
-  {
-    "name": "Aku Ankka",
-    "password": "kvak kvak"
-  }
-
-const usersOneNewNoPw =
-  {
-    "username": "Aku",
-    "name": "Aku Ankka",
-  }
+  ]
+}
 
 module.exports = {
   blogsOne,
