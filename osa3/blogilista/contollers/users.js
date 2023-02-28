@@ -10,6 +10,10 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
+  if (!password || password.length < 3) {
+    response.status(400).json({ 'error':'password must be at least 3 characters' })
+  }
+
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
@@ -28,10 +32,10 @@ usersRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
-usersRouter.put('/:id', async (request, response) => {
-  const user = request.body
-  const updatedUser = await User.findByIdAndUpdate(request.params.id, user, { new:true })
-  response.json(updatedUser)
-})
+// usersRouter.put('/:id', async (request, response) => {
+//   const user = request.body
+//   const updatedUser = await User.findByIdAndUpdate(request.params.id, user, { new:true })
+//   response.json(updatedUser)
+// })
 
 module.exports = usersRouter

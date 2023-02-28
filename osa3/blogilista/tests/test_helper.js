@@ -1,5 +1,3 @@
-const Blog = require('../models/blog')
-
 const blogsOne = [
   {
     "title": "React patterns",
@@ -91,6 +89,55 @@ const blogsManyMostLikes = {
   "likes": 21,
 }
 
+const usersMany = [
+  {
+    "username": "Tupu",
+    "name": "Tupu Ankka",
+    "password": "kååk"
+  },
+  {
+    "username": "Hupu",
+    "name": "Hupu Ankka",
+    "password": "kääk"
+  },{
+    "username": "Lupu",
+    "name": "Lupu Ankka",
+    "password": "köök"
+  },
+]
+
+const usersOneNew =
+  {
+    "username": "Aku",
+    "name": "Aku Ankka",
+    "password": "kvak kvak"
+  }
+
+const usersOneNewShortUsername =
+    {
+      "username": "Ak",
+      "name": "Aku Ankka",
+      "password": "kvak kvak"
+    }
+
+const usersOneNewShortPw =
+  {
+    "username": "Aku",
+    "name": "Aku Ankka",
+    "password": "kv"
+  }
+
+const usersOneNewNoUsername =
+  {
+    "name": "Aku Ankka",
+    "password": "kvak kvak"
+  }
+
+const usersOneNewNoPw =
+  {
+    "username": "Aku",
+    "name": "Aku Ankka",
+  }
 
 module.exports = {
   blogsOne,
@@ -101,5 +148,11 @@ module.exports = {
   blogsOneMostAuthored,
   blogsManyMostAuthored,
   blogsOneMostLikes,
-  blogsManyMostLikes
+  blogsManyMostLikes,
+  usersMany,
+  usersOneNew,
+  usersOneNewShortPw,
+  usersOneNewShortUsername,
+  usersOneNewNoUsername,
+  usersOneNewNoPw
 }
