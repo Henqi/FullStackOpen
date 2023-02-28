@@ -13,6 +13,11 @@ beforeEach(async () => {
   await Blog.insertMany(testHelper.blogsMany)
 })
 
+const blogsInDb = async () => {
+  const blogs = await api.get('/api/blogs')
+  return blogs
+}
+
 describe('API tests', () => {
 
   test('the blogs are returned in JSON format', async () => {
@@ -23,17 +28,17 @@ describe('API tests', () => {
   })
 
   test('the correct number of blogs are returned', async () => {
-    const response = await api.get('/api/blogs')
+    const response = await blogsInDb()
     expect(response.body).toHaveLength(testHelper.blogsMany.length)
   })
 
   test('the key property of the blog is named "id"', async () => {
-    const response = await api.get('/api/blogs')
+    const response = await blogsInDb()
     expect(response.body[0].id).toBeDefined()
   })
 
   test('blogs can be added', async () => {
-    const startState = await api.get('/api/blogs')
+    const startState = await blogsInDb()
     expect(startState.body).toHaveLength(testHelper.blogsMany.length)
 
     await api.post('/api/blogs')
@@ -41,7 +46,7 @@ describe('API tests', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
+    const response = await blogsInDb()
     expect(response.body).toHaveLength(testHelper.blogsMany.length+1)
     expect(response.body).toEqual(
       expect.arrayContaining([
@@ -71,11 +76,11 @@ describe('API tests', () => {
   })
 
   test('blogs can be deleted by id property', async () => {
-    const startState = await api.get('/api/blogs')
+    const startState = await blogsInDb()
     await api.delete(`/api/blogs/${startState.body[0].id}`)
       .expect(204)
 
-    const endState = await api.get('/api/blogs')
+    const endState = await blogsInDb()
     expect(endState.body).toHaveLength(testHelper.blogsMany.length-1)
     expect(endState.body).not.toEqual(
       expect.arrayContaining([
@@ -87,12 +92,12 @@ describe('API tests', () => {
   })
 
   test('blogs can be modified with PUT according to id property', async () => {
-    const startState = await api.get('/api/blogs')
+    const startState = await blogsInDb()
     const firstBlogId = startState.body[0].id
     await api.put(`/api/blogs/${firstBlogId}`)
       .send({ likes:420 })
 
-    const endState = await api.get('/api/blogs')
+    const endState = await blogsInDb()
     const firstBlogIndex = endState.body.findIndex(obj => obj.id === firstBlogId)
     expect(endState.body[firstBlogIndex].likes).toEqual(420)
   })
