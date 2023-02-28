@@ -93,16 +93,17 @@ const usersMany = [
   {
     "username": "Tupu",
     "name": "Tupu Ankka",
-    "password": "kååk"
+    "passwordHash": "kaak"
   },
   {
     "username": "Hupu",
     "name": "Hupu Ankka",
-    "password": "kääk"
-  },{
+    "passwordHash": "kook"
+  },
+  {
     "username": "Lupu",
     "name": "Lupu Ankka",
-    "password": "köök"
+    "password": "kiik"
   },
 ]
 

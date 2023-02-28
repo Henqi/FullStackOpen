@@ -58,17 +58,25 @@ describe('API tests', () => {
   })
 
   test('if "likes" property is undefined, set likes to 0', async () => {
-    let blogNoLikes = testHelper.blogsOneNew
-    blogNoLikes.likes = undefined
+    const blogNoLikes = { ...testHelper.blogsOneNew }
+    delete blogNoLikes.likes
     const response = await api.post('/api/blogs')
       .send(blogNoLikes)
     expect(response.body.likes).toBe(0)
   })
 
-  test('if title or url fields are empty respond with http 400', async () => {
-    let blogNoLikes = testHelper.blogsOneNew
-    blogNoLikes.title = undefined
-    blogNoLikes.url = undefined
+  test('if title field is empty respond with http 400', async () => {
+    const blogNoLikes = { ...testHelper.blogsOneNew }
+    delete blogNoLikes.title
+
+    await api.post('/api/blogs')
+      .send(blogNoLikes)
+      .expect(400)
+  })
+
+  test('if url field is empty respond with http 400', async () => {
+    const blogNoLikes = { ...testHelper.blogsOneNew }
+    delete blogNoLikes.url
 
     await api.post('/api/blogs')
       .send(blogNoLikes)

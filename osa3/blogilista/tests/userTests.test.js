@@ -10,7 +10,7 @@ beforeEach(async () => {
   await mongoose.connection.close()
   await mongoose.connect(MONGODB_URI)
   await User.deleteMany({})
-  await User.insertMany(testHelper.usersMany)
+  await User.insertMany(testHelper.usersMany) // dummy passwordHashes
 })
 
 const usersInDb = async () => {
