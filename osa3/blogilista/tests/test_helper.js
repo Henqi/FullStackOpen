@@ -28,37 +28,43 @@ const blogsMany = [
     "title": "React patterns",
     "author": "Michael Chan",
     "url": "https://reactpatterns.com/",
-    "likes": 7
+    "likes": 7,
+    "user":"63fdceb278b24b2a7a21786d"
   },
   {
     "title": "Go To Statement Considered Harmful",
     "author": "Edsger W. Dijkstra",
     "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    "likes": 5
+    "likes": 5,
+    "user":"63fdceb278b24b2a7a21786d"
   },
   {
     "title": "Canonical string reduction",
     "author": "Edsger W. Dijkstra",
     "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    "likes": 12
+    "likes": 12,
+    "user":"63fdceb278b24b2a7a21786d"
   },
   {
     "title": "First class tests",
     "author": "Robert C. Martin",
     "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-    "likes": 10
+    "likes": 10,
+    "user":"63fdceb278b24b2a7a21786d"
   },
   {
     "title": "TDD harms architecture",
     "author": "Robert C. Martin",
     "url": "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    "likes": 11
+    "likes": 11,
+    "user":"63fdceb278b24b2a7a21786d"
   },
   {
     "title": "Type wars",
     "author": "Robert C. Martin",
     "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    "likes": 0
+    "likes": 0,
+    "user":"63fdceb278b24b2a7a21786d"
   }
 ]
 
@@ -66,7 +72,8 @@ const blogMostLikes = {
   "title": "Canonical string reduction",
   "author": "Edsger W. Dijkstra",
   "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-  "likes": 12
+  "likes": 12,
+  "user": "63fdceb278b24b2a7a21786d"
 }
 
 const blogsOneMostAuthored = {
@@ -173,5 +180,6 @@ module.exports = {
   usersOneNewShortPw,
   usersOneNewShortUsername,
   usersOneNewNoUsername,
-  usersOneNewNoPw
+  usersOneNewNoPw,
+  usersOneWithBlogs
 }
