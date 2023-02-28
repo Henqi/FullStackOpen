@@ -2,11 +2,11 @@ const _ = require('lodash')
 
 const totalLikes = (blogs) => {
   const likes = blogs.map(blog => blog.likes)
-    .reduce((accumulator, current) => 
+    .reduce((accumulator, current) =>
       accumulator+current, 0
     )
   return likes
-} 
+}
 
 const favouriteBlog = (blogs) => {
   if (!blogs || blogs.length === 0) {
@@ -29,7 +29,7 @@ const mostBlogs = (blogs) => {
     .pop()
 
   const authorBlogsAmount = blogs.filter(blog => blog.author === mostBlogsAuthor).length
-  
+
   return {
     author: mostBlogsAuthor,
     blogs: authorBlogsAmount
@@ -45,7 +45,7 @@ const mostLikes = (blogs) => {
   const likesPerAuthor = authorKeys.map(key => authorsSorted[key])
   const sumOfLikes = likesPerAuthor.map(blogs => blogs.map(blog => blog.likes))
     .map(likes => likes.reduce((acc, curr) => acc+curr))
-  const maxLikesIndex = sumOfLikes.indexOf(_.max(sumOfLikes)) 
+  const maxLikesIndex = sumOfLikes.indexOf(_.max(sumOfLikes))
 
   return {
     author: authorKeys[maxLikesIndex],

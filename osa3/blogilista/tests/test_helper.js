@@ -8,7 +8,7 @@ const blogsOne = [
     "likes": 7
   }
 ]
-  
+
 const blogsOneZeroLikes = [
   {
     "title": "React patterns",
@@ -61,35 +61,35 @@ const blogsMany = [
     "author": "Robert C. Martin",
     "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
     "likes": 0
-  }  
+  }
 ]
-  
+
 const blogMostLikes = {
   "title": "Canonical string reduction",
   "author": "Edsger W. Dijkstra",
   "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
   "likes": 12
 }
-  
+
 const blogsOneMostAuthored = {
   "author": "Michael Chan",
   "blogs": 1
 }
-  
+
 const blogsManyMostAuthored = {
   "author": "Robert C. Martin",
   "blogs": 3,
-}  
-  
+}
+
 const blogsOneMostLikes = {
   "author": "Michael Chan",
   "likes": 7
 }
-  
+
 const blogsManyMostLikes = {
   "author": "Robert C. Martin",
   "likes": 21,
-}  
+}
 
 
 module.exports = {

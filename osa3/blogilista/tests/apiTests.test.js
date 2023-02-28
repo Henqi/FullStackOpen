@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {MONGODB_URI} = require('../utils/config')
+const { MONGODB_URI } = require('../utils/config')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
@@ -21,27 +21,27 @@ describe('API tests', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
-  
+
   test('the correct number of blogs are returned', async () => {
-    const response = await api.get('/api/blogs')    
+    const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(testHelper.blogsMany.length)
   })
 
   test('the key property of the blog is named "id"', async () => {
     const response = await api.get('/api/blogs')
-    expect(response.body[0].id).toBeDefined() 
+    expect(response.body[0].id).toBeDefined()
   })
-  
+
   test('blogs can be added', async () => {
     const startState = await api.get('/api/blogs')
     expect(startState.body).toHaveLength(testHelper.blogsMany.length)
-    
+
     await api.post('/api/blogs')
       .send(testHelper.blogsOneNew)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs') 
+    const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(testHelper.blogsMany.length+1)
     expect(response.body).toEqual(
       expect.arrayContaining([
@@ -57,7 +57,7 @@ describe('API tests', () => {
     blogNoLikes.likes = undefined
     const response = await api.post('/api/blogs')
       .send(blogNoLikes)
-    expect(response.body.likes).toBe(0) 
+    expect(response.body.likes).toBe(0)
   })
 
   test('if title or url fields are empty respond with http 400', async () => {
@@ -67,7 +67,7 @@ describe('API tests', () => {
 
     await api.post('/api/blogs')
       .send(blogNoLikes)
-      .expect(400) 
+      .expect(400)
   })
 
   test('blogs can be deleted by id property', async () => {
@@ -75,7 +75,7 @@ describe('API tests', () => {
     await api.delete(`/api/blogs/${startState.body[0].id}`)
       .expect(204)
 
-    const endState = await api.get('/api/blogs') 
+    const endState = await api.get('/api/blogs')
     expect(endState.body).toHaveLength(testHelper.blogsMany.length-1)
     expect(endState.body).not.toEqual(
       expect.arrayContaining([
@@ -90,9 +90,9 @@ describe('API tests', () => {
     const startState = await api.get('/api/blogs')
     const firstBlogId = startState.body[0].id
     await api.put(`/api/blogs/${firstBlogId}`)
-      .send({likes:420})
+      .send({ likes:420 })
 
-    const endState = await api.get('/api/blogs') 
+    const endState = await api.get('/api/blogs')
     const firstBlogIndex = endState.body.findIndex(obj => obj.id === firstBlogId)
     expect(endState.body[firstBlogIndex].likes).toEqual(420)
   })
