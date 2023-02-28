@@ -79,32 +79,16 @@ describe('User tests', () => {
 
   test('if username is duplicate, return error', async () => {
     const user = testHelper.usersOneNew
-    console.log(user)
     await api.post('/api/users')
       .send(user)
       .expect(201)
 
-    console.log(user)
     await api.post('/api/users')
       .send(user)
       .expect(400)
   })
 
 })
-
-
-//   test('blogs can be modified with PUT according to id property', async () => {
-//     const startState = await usersInDb()
-//     const firstBlogId = startState.body[0].id
-//     await api.put(`/api/blogs/${firstBlogId}`)
-//       .send({ likes:420 })
-
-//     const endState = await usersInDb()
-//     const firstBlogIndex = endState.body.findIndex(obj => obj.id === firstBlogId)
-//     expect(endState.body[firstBlogIndex].likes).toEqual(420)
-//   })
-
-
 
 afterAll(async () => {
   await mongoose.connection.close()
