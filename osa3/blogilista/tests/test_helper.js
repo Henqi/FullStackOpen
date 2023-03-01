@@ -68,13 +68,7 @@ const blogsMany = [
   }
 ]
 
-const blogMostLikes = {
-  "title": "Canonical string reduction",
-  "author": "Edsger W. Dijkstra",
-  "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-  "likes": 12,
-  "user": "63fdceb278b24b2a7a21786d"
-}
+const blogMostLikes = blogsMany[2]
 
 const blogsOneMostAuthored = {
   "author": "Michael Chan",
@@ -114,8 +108,15 @@ const usersMany = [
     "name": "Lupu Ankka",
     "password": "kiik",
     "blogs": []
-  },
+  }
 ]
+
+const usersOneWrongPw =   {
+  "username": "Tupu",
+  "name": "Tupu Ankka",
+  "password": "wrongPassword",
+  "blogs": []
+}
 
 const usersOneNew = {
   "username": "Aku",
@@ -179,6 +180,7 @@ module.exports = {
   blogsOneMostLikes,
   blogsManyMostLikes,
   usersMany,
+  usersOneWrongPw,
   usersOneNew,
   usersOneNewShortPw,
   usersOneNewShortUsername,
