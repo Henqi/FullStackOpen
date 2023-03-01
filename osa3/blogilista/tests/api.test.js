@@ -7,7 +7,6 @@ const Blog = require('../models/blog')
 const testHelper = require('./test_helper')
 
 beforeEach(async () => {
-  await mongoose.connection.close()
   await mongoose.connect(MONGODB_URI)
   await Blog.deleteMany({})
   await Blog.insertMany(testHelper.blogsMany)
