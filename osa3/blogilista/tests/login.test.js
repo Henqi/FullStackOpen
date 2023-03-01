@@ -23,11 +23,16 @@ const usersInDb = async () => {
 
 describe('Login tests', () => {
 
-  test('login with existing user successful', async () => {
-    await api.post('/api/login')
+  test('login with existing user is successful & returns token', async () => {
+    const response = await api.post('/api/login')
       .send(testHelper.usersMany[0])
       .expect(200)
       .expect('Content-Type', /application\/json/)
+
+    expect(response.body)
+      .toEqual(
+        expect.objectContaining({ 'token': expect.any(String) })
+      )
   })
 
   test('login with non-existing user unsuccessful', async () => {
