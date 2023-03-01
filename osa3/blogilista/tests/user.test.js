@@ -4,13 +4,16 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const User = require('../models/user')
-const testHelper = require('../tests/test_helper')
+const testHelper = require('./test_helper')
 
 beforeEach(async () => {
-  await mongoose.connection.close()
   await mongoose.connect(MONGODB_URI)
   await User.deleteMany({})
-  await User.insertMany(testHelper.usersMany) // dummy passwordHashes
+
+  for (let i = 0; i < testHelper.usersMany.length; i++) {
+    await api.post('/api/users').send(testHelper.usersMany[i])
+  }
+
 })
 
 const usersInDb = async () => {
