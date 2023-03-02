@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFrdSIsImlkIjoiNjNmZTAwYTAyNTUxYjM2MWQzMjNiYTZlIiwiaWF0IjoxNjc3NzY2MjAxLCJleHAiOjE2Nzc3Njk4MDF9.4ZFOD2eZtVfLg6GVQswPrwGs6irMOV2CtJaNrabBNdE
 
-    {
-    "title": "splitpush",
-    "author": "broken bones",
-    "url": "https://example.com",
-    "likes": 2,
-    "user": "63fdceb278b24b2a7a21786d"
-  }
+{
+  "title": "Akun blogi",
+  "author": "313 auto",
+  "url": "https://akuankka.com",
+  "likes": 313
+}
