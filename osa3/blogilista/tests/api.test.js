@@ -12,6 +12,7 @@ beforeEach(async () => {
   await Blog.deleteMany({})
   await User.deleteMany({})
   await Blog.insertMany(testHelper.blogsMany)
+
   for (let i = 0; i < testHelper.usersMany.length; i++) {
     await api.post('/api/users').send(testHelper.usersMany[i])
   }
