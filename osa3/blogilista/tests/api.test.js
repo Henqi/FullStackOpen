@@ -4,17 +4,29 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const testHelper = require('./test_helper')
 
 beforeEach(async () => {
   await mongoose.connect(MONGODB_URI)
   await Blog.deleteMany({})
+  await User.deleteMany({})
   await Blog.insertMany(testHelper.blogsMany)
+  for (let i = 0; i < testHelper.usersMany.length; i++) {
+    await api.post('/api/users').send(testHelper.usersMany[i])
+  }
 })
 
 const blogsInDb = async () => {
   const blogs = await api.get('/api/blogs')
   return blogs
+}
+
+const getTestToken = async () => {
+  const user = testHelper.usersMany[0]
+  const login = await api.post('/api/login')
+    .send(user)
+  return login.body.token
 }
 
 describe('API tests', () => {
@@ -36,12 +48,23 @@ describe('API tests', () => {
     expect(response.body[0].id).toBeDefined()
   })
 
-  test('blogs can be added', async () => {
+  test('blogs cannot be added without token', async () => {
     const startState = await blogsInDb()
     expect(startState.body).toHaveLength(testHelper.blogsMany.length)
 
     await api.post('/api/blogs')
       .send(testHelper.blogsOneNew)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('blogs can be added with valid token', async () => {
+    const startState = await blogsInDb()
+    expect(startState.body).toHaveLength(testHelper.blogsMany.length)
+
+    await api.post('/api/blogs')
+      .send(testHelper.blogsOneNew)
+      .set('Authorization', 'Bearer ' + await getTestToken())
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -59,8 +82,10 @@ describe('API tests', () => {
   test('if "likes" property is undefined, set likes to 0', async () => {
     const blogNoLikes = { ...testHelper.blogsOneNew }
     delete blogNoLikes.likes
+
     const response = await api.post('/api/blogs')
       .send(blogNoLikes)
+      .set('Authorization', 'Bearer ' + await getTestToken())
     expect(response.body.likes).toBe(0)
   })
 
@@ -70,6 +95,7 @@ describe('API tests', () => {
 
     await api.post('/api/blogs')
       .send(blogNoLikes)
+      .set('Authorization', 'Bearer ' + await getTestToken())
       .expect(400)
   })
 
@@ -79,6 +105,7 @@ describe('API tests', () => {
 
     await api.post('/api/blogs')
       .send(blogNoLikes)
+      .set('Authorization', 'Bearer ' + await getTestToken())
       .expect(400)
   })
 
