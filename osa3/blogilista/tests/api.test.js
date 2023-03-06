@@ -49,7 +49,7 @@ describe('API tests', () => {
     expect(response.body[0].id).toBeDefined()
   })
 
-  test('blogs cannot be added without token', async () => {
+  test('blog cannot be added without token, respond with http 401', async () => {
     const startState = await blogsInDb()
     expect(startState.body).toHaveLength(testData.blogsMany.length)
 
@@ -59,7 +59,7 @@ describe('API tests', () => {
       .expect('Content-Type', /application\/json/)
   })
 
-  test('blogs can be added with valid token', async () => {
+  test('blog can be added with valid token', async () => {
     const startState = await blogsInDb()
     expect(startState.body).toHaveLength(testData.blogsMany.length)
 
@@ -140,7 +140,7 @@ describe('API tests', () => {
     )
   })
 
-  test('other user cannot delete blog by id', async () => {
+  test('other user cannot delete blog by id, respond with http 401', async () => {
     const users = await api.get('/api/users')
     const newBlog = { ...testData.blogsOneNew }
     user = users.body[0]
@@ -170,6 +170,7 @@ describe('API tests', () => {
     )
   })
 
+  // needs to be refactored to use jwt auth
   test('blogs can be modified with PUT according to id property', async () => {
     const startState = await blogsInDb()
     const firstBlogId = startState.body[0].id
