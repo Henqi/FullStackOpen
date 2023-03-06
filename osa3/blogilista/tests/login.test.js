@@ -4,14 +4,14 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const User = require('../models/user')
-const testHelper = require('./test_helper')
+const testData = require('./test_data')
 
 beforeEach(async () => {
   await mongoose.connect(MONGODB_URI)
   await User.deleteMany({})
 
-  for (let i = 0; i < testHelper.usersMany.length; i++) {
-    await api.post('/api/users').send(testHelper.usersMany[i])
+  for (let i = 0; i < testData.usersMany.length; i++) {
+    await api.post('/api/users').send(testData.usersMany[i])
   }
 
 })
@@ -25,7 +25,7 @@ describe('Login tests', () => {
 
   test('login with existing user is successful & returns token', async () => {
     const response = await api.post('/api/login')
-      .send(testHelper.usersMany[0])
+      .send(testData.usersMany[0])
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -37,13 +37,13 @@ describe('Login tests', () => {
 
   test('login with non-existing user unsuccessful', async () => {
     await api.post('/api/login')
-      .send(testHelper.usersOneNew)
+      .send(testData.usersOneNew)
       .expect(401)
   })
 
   test('login with existing user & wrong password unsuccessful', async () => {
     await api.post('/api/login')
-      .send(testHelper.usersOneWrongPw)
+      .send(testData.usersOneWrongPw)
       .expect(401)
   })
 

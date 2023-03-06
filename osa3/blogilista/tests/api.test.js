@@ -5,16 +5,16 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const testHelper = require('./test_helper')
+const testData = require('./test_data')
 
 beforeEach(async () => {
   await mongoose.connect(MONGODB_URI)
   await Blog.deleteMany({})
   await User.deleteMany({})
-  await Blog.insertMany(testHelper.blogsMany)
+  await Blog.insertMany(testData.blogsMany)
 
-  for (let i = 0; i < testHelper.usersMany.length; i++) {
-    await api.post('/api/users').send(testHelper.usersMany[i])
+  for (let i = 0; i < testData.usersMany.length; i++) {
+    await api.post('/api/users').send(testData.usersMany[i])
   }
 })
 
@@ -23,11 +23,11 @@ const blogsInDb = async () => {
   return blogs
 }
 
-const getTestToken = async () => {
-  const user = testHelper.usersMany[0]
+const getTestToken = async (userIndex) => {
+  const user = testData.usersMany[userIndex]
   const login = await api.post('/api/login')
     .send(user)
-  return login.body.token
+  return `Bearer ${login.body.token}`
 }
 
 describe('API tests', () => {
@@ -41,7 +41,7 @@ describe('API tests', () => {
 
   test('the correct number of blogs are returned', async () => {
     const response = await blogsInDb()
-    expect(response.body).toHaveLength(testHelper.blogsMany.length)
+    expect(response.body).toHaveLength(testData.blogsMany.length)
   })
 
   test('the key property of the blog is named "id"', async () => {
@@ -51,76 +51,120 @@ describe('API tests', () => {
 
   test('blogs cannot be added without token', async () => {
     const startState = await blogsInDb()
-    expect(startState.body).toHaveLength(testHelper.blogsMany.length)
+    expect(startState.body).toHaveLength(testData.blogsMany.length)
 
     await api.post('/api/blogs')
-      .send(testHelper.blogsOneNew)
+      .send(testData.blogsOneNew)
       .expect(401)
       .expect('Content-Type', /application\/json/)
   })
 
   test('blogs can be added with valid token', async () => {
     const startState = await blogsInDb()
-    expect(startState.body).toHaveLength(testHelper.blogsMany.length)
+    expect(startState.body).toHaveLength(testData.blogsMany.length)
 
     await api.post('/api/blogs')
-      .send(testHelper.blogsOneNew)
-      .set('Authorization', 'Bearer ' + await getTestToken())
+      .send(testData.blogsOneNew)
+      .set('Authorization', await getTestToken(0))
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
     const response = await blogsInDb()
-    expect(response.body).toHaveLength(testHelper.blogsMany.length+1)
+    expect(response.body).toHaveLength(testData.blogsMany.length+1)
     expect(response.body).toEqual(
       expect.arrayContaining([
         expect.objectContaining(
-          testHelper.blogsOneNew
+          testData.blogsOneNew
         )
       ])
     )
   })
 
   test('if "likes" property is undefined, set likes to 0', async () => {
-    const blogNoLikes = { ...testHelper.blogsOneNew }
+    const blogNoLikes = { ...testData.blogsOneNew }
     delete blogNoLikes.likes
 
     const response = await api.post('/api/blogs')
       .send(blogNoLikes)
-      .set('Authorization', 'Bearer ' + await getTestToken())
+      .set('Authorization', await getTestToken(0))
     expect(response.body.likes).toBe(0)
   })
 
   test('if title field is empty respond with http 400', async () => {
-    const blogNoLikes = { ...testHelper.blogsOneNew }
+    const blogNoLikes = { ...testData.blogsOneNew }
     delete blogNoLikes.title
 
     await api.post('/api/blogs')
       .send(blogNoLikes)
-      .set('Authorization', 'Bearer ' + await getTestToken())
+      .set('Authorization', await getTestToken(0))
       .expect(400)
   })
 
   test('if url field is empty respond with http 400', async () => {
-    const blogNoLikes = { ...testHelper.blogsOneNew }
+    const blogNoLikes = { ...testData.blogsOneNew }
     delete blogNoLikes.url
 
     await api.post('/api/blogs')
       .send(blogNoLikes)
-      .set('Authorization', 'Bearer ' + await getTestToken())
+      .set('Authorization', await getTestToken(0))
       .expect(400)
   })
 
-  test('blogs can be deleted by id property', async () => {
-    const startState = await blogsInDb()
-    await api.delete(`/api/blogs/${startState.body[0].id}`)
+  test('creator can delete blog by id', async () => {
+    const users = await api.get('/api/users')
+    const newBlog = { ...testData.blogsOneNew }
+    user = users.body[0]
+
+    const postedBlog = await api.post('/api/blogs')
+      .send(newBlog)
+      .set('Authorization', await getTestToken(0))
+      .expect(201)
+
+    await api.delete(`/api/blogs/${postedBlog.body.id}`)
+      .set('Authorization', await getTestToken(0))
       .expect(204)
 
     const endState = await blogsInDb()
-    expect(endState.body).toHaveLength(testHelper.blogsMany.length-1)
+    expect(endState.body).toHaveLength(testData.blogsMany.length)
     expect(endState.body).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining(
-          startState.body[0]
+          { author: newBlog.author,
+            likes: newBlog.likes,
+            title: newBlog.title,
+            url: newBlog.url,
+            user: { id: user.id, name:user.name, username: user.username }
+          }
+        )
+      ])
+    )
+  })
+
+  test('other user cannot delete blog by id', async () => {
+    const users = await api.get('/api/users')
+    const newBlog = { ...testData.blogsOneNew }
+    user = users.body[0]
+
+    const postedBlog = await api.post('/api/blogs')
+      .send(newBlog)
+      .set('Authorization', await getTestToken(0))
+      .expect(201)
+
+    await api.delete(`/api/blogs/${postedBlog.body.id}`)
+      .set('Authorization', await getTestToken(1))
+      .expect(401)
+
+    const endState = await blogsInDb()
+    expect(endState.body).toHaveLength(testData.blogsMany.length+1)
+    expect(endState.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(
+          { author: newBlog.author,
+            likes: newBlog.likes,
+            title: newBlog.title,
+            url: newBlog.url,
+            user: { id: user.id, name:user.name, username: user.username }
+          }
         )
       ])
     )
