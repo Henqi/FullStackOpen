@@ -6,7 +6,12 @@ const loginForm = ({ username, setUsername, password, setPassword, setUser }) =>
     event.preventDefault()
     console.log('logging in with', username, password)  
     const userLogin = await loginService.login(username, password)
+    window.localStorage.setItem(
+      'loggedUser', JSON.stringify(userLogin)
+      )
     setUser(userLogin) 
+    setUsername('')
+    setPassword('')
   }
 
   return (  
