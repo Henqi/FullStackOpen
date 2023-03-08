@@ -1,6 +1,16 @@
 import blogService from '../services/blogs'
 
-const CreateBlog = ({ setBlogs, title, setTitle, author, setAuthor, url, setUrl, user }) => {
+const CreateBlog = ({ 
+    setBlogs,
+    title, 
+    setTitle, 
+    author, 
+    setAuthor, 
+    url, 
+    setUrl, 
+    user,
+    setSuccessMessage,
+    setErrorMessage }) => {
     
     const handleBlogCreate = async (event) => {
         event.preventDefault()
@@ -8,10 +18,19 @@ const CreateBlog = ({ setBlogs, title, setTitle, author, setAuthor, url, setUrl,
             'title': title,
             'author': author,
             'url': url 
-        }      
-        await blogService.createBlog(newBlog, user)
-        const updatedBlogs = await blogService.getAll()
-        setBlogs(updatedBlogs)
+        }   
+          
+        try {
+            await blogService.createBlog(newBlog, user)
+            const updatedBlogs = await blogService.getAll()
+            setBlogs(updatedBlogs)
+            setSuccessMessage(`Blog "${newBlog.title}" by "${newBlog.author}" succesfully created`)
+            setTitle('')
+            setAuthor('')
+            setUrl('')
+        } catch {
+            setErrorMessage(`Could not create new blog`)
+        } 
     }
 
   return (  

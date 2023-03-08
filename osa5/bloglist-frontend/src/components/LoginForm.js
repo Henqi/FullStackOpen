@@ -1,17 +1,28 @@
 import loginService from '../services/login'
 
-const loginForm = ({ username, setUsername, password, setPassword, setUser }) => {
+const loginForm = ({ 
+  username, 
+  setUsername, 
+  password, 
+  setPassword, 
+  setUser,
+  setErrorMessage }) => {
   
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)  
-    const userLogin = await loginService.login(username, password)
-    window.localStorage.setItem(
-      'loggedUser', JSON.stringify(userLogin)
-      )
-    setUser(userLogin) 
-    setUsername('')
-    setPassword('')
+    try {
+      const userLogin = await loginService.login(username, password)
+      window.localStorage.setItem(
+        'loggedUser', JSON.stringify(userLogin)
+        )
+      setUser(userLogin) 
+      setUsername('')
+      setPassword('')
+    }
+    catch{
+      setErrorMessage('wrong username or password')
+    }
+    
   }
 
   return (  
