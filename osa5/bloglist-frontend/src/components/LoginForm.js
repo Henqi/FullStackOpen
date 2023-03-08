@@ -1,35 +1,35 @@
 import loginService from '../services/login'
 
-const loginForm = ({ 
-  username, 
-  setUsername, 
-  password, 
-  setPassword, 
+const loginForm = ({
+  username,
+  setUsername,
+  password,
+  setPassword,
   setUser,
   setErrorMessage }) => {
-  
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const userLogin = await loginService.login(username, password)
       window.localStorage.setItem(
         'loggedUser', JSON.stringify(userLogin)
-        )
-      setUser(userLogin) 
+      )
+      setUser(userLogin)
       setUsername('')
       setPassword('')
     }
     catch{
       setErrorMessage('wrong username or password')
     }
-    
+
   }
 
-  return (  
+  return (
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -38,7 +38,7 @@ const loginForm = ({
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -46,7 +46,7 @@ const loginForm = ({
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
 }
 

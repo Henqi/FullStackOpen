@@ -7,7 +7,7 @@ const BlogList = ({ blogs, setBlogs }) => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
-    )  
+    )
   }, [])
 
   return (

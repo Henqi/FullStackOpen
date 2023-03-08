@@ -1,72 +1,72 @@
 import blogService from '../services/blogs'
 
-const CreateBlog = ({ 
-    setBlogs,
-    title, 
-    setTitle, 
-    author, 
-    setAuthor, 
-    url, 
-    setUrl, 
-    user,
-    setSuccessMessage,
-    setErrorMessage }) => {
-    
-    const handleBlogCreate = async (event) => {
-        event.preventDefault()
-        const newBlog = {
-            'title': title,
-            'author': author,
-            'url': url 
-        }   
-          
-        try {
-            await blogService.createBlog(newBlog, user)
-            const updatedBlogs = await blogService.getAll()
-            setBlogs(updatedBlogs)
-            setSuccessMessage(`Blog "${newBlog.title}" by "${newBlog.author}" succesfully created`)
-            setTitle('')
-            setAuthor('')
-            setUrl('')
-        } catch {
-            setErrorMessage(`Could not create new blog`)
-        } 
+const CreateBlog = ({
+  setBlogs,
+  title,
+  setTitle,
+  author,
+  setAuthor,
+  url,
+  setUrl,
+  user,
+  setSuccessMessage,
+  setErrorMessage }) => {
+
+  const handleBlogCreate = async (event) => {
+    event.preventDefault()
+    const newBlog = {
+      'title': title,
+      'author': author,
+      'url': url
     }
 
-  return (  
+    try {
+      await blogService.createBlog(newBlog, user)
+      const updatedBlogs = await blogService.getAll()
+      setBlogs(updatedBlogs)
+      setSuccessMessage(`Blog "${newBlog.title}" by "${newBlog.author}" succesfully created`)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch {
+      setErrorMessage(`Could not create new blog`)
+    }
+  }
+
+  return (
     <>
-        <h2>Add new blog:</h2>
-        <form onSubmit={handleBlogCreate}>
+      <h2>Add new blog:</h2>
+      <form onSubmit={handleBlogCreate}>
         <div>
             title
-            <input
+          <input
             type="text"
             value={title}
             name="title"
             onChange={({ target }) => setTitle(target.value)}
-            />
+          />
         </div>
         <div>
             author
-            <input
+          <input
             type="text"
             value={author}
             name="author"
             onChange={({ target }) => setAuthor(target.value)}
-            />
+          />
         </div>
         <div>
             url
-            <input
+          <input
             type="text"
             value={url}
             name="url"
             onChange={({ target }) => setUrl(target.value)}
-            />
+          />
         </div>
         <br></br>
         <button type="submit">create blog</button>
-        </form>      
+      </form>
     </>
   )
 }
