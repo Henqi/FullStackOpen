@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
+import CreateBlog from './components/CreateBlog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')    
@@ -46,10 +51,25 @@ const App = () => {
           </button>
         </div>
       </div>
-      <BlogList 
-        blogs={blogs}
-        setBlogs={setBlogs} 
-        />
+      <div>
+          <CreateBlog 
+            blogs={blogs}
+            setBlogs={setBlogs}
+            title={title}
+            setTitle={setTitle}
+            author={author}
+            setAuthor={setAuthor}
+            url={url}
+            setUrl={setUrl}
+            user={user}
+            />
+        </div>
+      <div>
+        <BlogList 
+          blogs={blogs}
+          setBlogs={setBlogs} 
+          />
+      </div>
     </>      
     )
   }
