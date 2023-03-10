@@ -6,7 +6,7 @@ const Notification = ({ message, setMessage, type }) => {
   const handleMessageChange = () => {
     setTimeout(() => {
       setMessage(null)
-    }, 2500)
+    }, 2000)
   }
 
   let messageType
