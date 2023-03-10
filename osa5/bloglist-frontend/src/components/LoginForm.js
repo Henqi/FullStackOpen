@@ -1,6 +1,6 @@
 import loginService from '../services/login'
 
-const loginForm = ({
+const LoginForm = ({
   username,
   setUsername,
   password,
@@ -50,4 +50,4 @@ const loginForm = ({
   )
 }
 
-export default loginForm
+export default LoginForm
