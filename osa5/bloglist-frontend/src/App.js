@@ -11,9 +11,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
@@ -66,12 +63,6 @@ const App = () => {
             <CreateBlog
               blogs={blogs}
               setBlogs={setBlogs}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}
               user={user}
               setSuccessMessage={setSuccessMessage}
               setErrorMessage={setErrorMessage} />

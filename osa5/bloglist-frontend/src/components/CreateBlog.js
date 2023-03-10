@@ -1,16 +1,15 @@
 import blogService from '../services/blogs'
+import { useState } from 'react'
 
 const CreateBlog = ({
   setBlogs,
-  title,
-  setTitle,
-  author,
-  setAuthor,
-  url,
-  setUrl,
   user,
   setSuccessMessage,
   setErrorMessage }) => {
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const handleBlogCreate = async (event) => {
     event.preventDefault()
