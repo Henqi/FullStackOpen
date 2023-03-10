@@ -3,6 +3,7 @@ import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import './index.css'
 
 const App = () => {
@@ -15,8 +16,6 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -59,24 +58,24 @@ const App = () => {
     return (
       <>
       User logged in: {user.username}
+        <button onClick={handleLogOut}>
+        logout
+        </button>
         <div>
-          <button onClick={handleLogOut}>
-          logout
-          </button>
-        </div>
-        <div>
-          <CreateBlog
-            blogs={blogs}
-            setBlogs={setBlogs}
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl}
-            user={user}
-            setSuccessMessage={setSuccessMessage}
-            setErrorMessage={setErrorMessage} />
+          <Togglable buttonLabel='Create blog'>
+            <CreateBlog
+              blogs={blogs}
+              setBlogs={setBlogs}
+              title={title}
+              setTitle={setTitle}
+              author={author}
+              setAuthor={setAuthor}
+              url={url}
+              setUrl={setUrl}
+              user={user}
+              setSuccessMessage={setSuccessMessage}
+              setErrorMessage={setErrorMessage} />
+          </Togglable>
         </div>
         <div>
           {
