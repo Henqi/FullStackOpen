@@ -1,6 +1,7 @@
 import Blog from './Blog'
 import { useEffect } from 'react'
 import blogService from '../services/blogs'
+import { orderBy } from 'lodash';
 
 const BlogList = ({ blogs, setBlogs, user }) => {
 
@@ -13,7 +14,7 @@ const BlogList = ({ blogs, setBlogs, user }) => {
   return (
     <div>
       <h2>Blogs:</h2>
-      {blogs.map(blog =>
+      {orderBy(blogs, 'likes', 'desc').map(blog =>
         <Blog
           key={blog.id}
           blog={blog}
