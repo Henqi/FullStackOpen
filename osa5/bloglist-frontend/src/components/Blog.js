@@ -1,15 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user }) => {
 
   const [showFull, setShowFull] = useState(false)
+  const [upToDateBlog, setUpToDateBlog] = useState([])
+
+  useEffect(() => {
+    setUpToDateBlog(blog)
+  }, [])
+
 
   const toggleViewBlog = () => {
     setShowFull(!showFull)
   }
 
-  const handleAddLike = () => {
-
+  const handleAddLike = async () => {
+    const updatedBlog = { ...upToDateBlog }
+    updatedBlog.likes += 1
+    updatedBlog.user = user.id
+    const response = await blogService.updateBlog(updatedBlog, user, upToDateBlog.id)
+    setUpToDateBlog(response)
   }
 
   const blogStyle = {
@@ -23,19 +34,19 @@ const Blog = ({ blog }) => {
   if (showFull) {
     return (
       <div className='blogStyle' style={blogStyle}>
-        {blog.title} - {blog.author}
+        {upToDateBlog.title} - {upToDateBlog.author}
         <button onClick={toggleViewBlog}>
           hide
         </button>
         <br/>
-        {blog.url}
+        {upToDateBlog.url}
         <br/>
-        likes: {blog.likes}
+        likes: {upToDateBlog.likes}
         <button onClick={handleAddLike}>
           like
         </button>
         <br/>
-        {blog.user.name}
+        {upToDateBlog.user.name}
       </div>
     )
   }
@@ -43,7 +54,7 @@ const Blog = ({ blog }) => {
   else {
     return (
       <div className='blogStyle' style={blogStyle}>
-        {blog.title} - {blog.author}
+        {upToDateBlog.title} - {upToDateBlog.author}
         <button onClick={toggleViewBlog}>
           view
         </button>

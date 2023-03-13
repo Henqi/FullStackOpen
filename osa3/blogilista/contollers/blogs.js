@@ -50,11 +50,11 @@ blogsRouter.delete('/:id', async (request, response) => {
   }
 })
 
-// TODO: refactor to use jwt auth
 blogsRouter.put('/:id', async (request, response) => {
   const blog = request.body
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new:true })
-  response.json(updatedBlog)
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new:true }).populate('user', { username: 1, name: 1 })
+  response.status(200).json(updatedBlog)
+
 })
 
 module.exports = blogsRouter

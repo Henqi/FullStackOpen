@@ -79,6 +79,7 @@ const App = () => {
           <BlogList
             blogs={blogs}
             setBlogs={setBlogs}
+            user={user}
           />
         </div>
       </>
