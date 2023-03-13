@@ -1,26 +1,45 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({
+  blog,
+  user,
+  blogs,
+  setBlogs,
+  setSuccessMessage }) => {
 
   const [showFull, setShowFull] = useState(false)
-  const [upToDateBlog, setUpToDateBlog] = useState([])
-
-  useEffect(() => {
-    setUpToDateBlog(blog)
-  }, [])
-
 
   const toggleViewBlog = () => {
     setShowFull(!showFull)
   }
 
   const handleAddLike = async () => {
-    const updatedBlog = { ...upToDateBlog }
+    const updatedBlog = { ...blog }
     updatedBlog.likes += 1
     updatedBlog.user = user.id
-    const response = await blogService.updateBlog(updatedBlog, user, upToDateBlog.id)
-    setUpToDateBlog(response)
+
+    const blogLikesAdded = await blogService.updateBlog(updatedBlog, user, blog.id)
+    const blogsWithoutOld = blogs.filter(blogEntry => blogEntry.id !== blog.id)
+    setBlogs(blogsWithoutOld.concat(blogLikesAdded))
+  }
+
+  const isUserBlog = () => {
+    if (blog.user.username.toString() === user.username.toString()) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  const deleteButtonStyle = { display: isUserBlog() ? '' : 'none' }
+
+  const handleBlogDelete = async () => {
+    if (window.confirm(`Delete blog "${blog.title}" by "${blog.author}"?`)) {
+      await blogService.deleteBlog(user, blog.id)
+      setBlogs(blogs.filter(blogEntry => blogEntry.id !== blog.id))
+      setSuccessMessage(`Deleted blog "${blog.title}" by "${blog.author}"`)
+    }
   }
 
   const blogStyle = {
@@ -33,28 +52,33 @@ const Blog = ({ blog, user }) => {
 
   if (showFull) {
     return (
-      <div className='blogStyle' style={blogStyle}>
-        {upToDateBlog.title} - {upToDateBlog.author}
+      <div style={blogStyle}>
+        {blog.title} - {blog.author}
         <button onClick={toggleViewBlog}>
           hide
         </button>
         <br/>
-        {upToDateBlog.url}
+        {blog.url}
         <br/>
-        likes: {upToDateBlog.likes}
+        likes: {blog.likes}
         <button onClick={handleAddLike}>
           like
         </button>
         <br/>
-        {upToDateBlog.user.name}
+        {blog.user.name}
+        <div>
+          <button onClick={handleBlogDelete} style={deleteButtonStyle} >
+            delete blog
+          </button>
+        </div>
       </div>
     )
   }
 
   else {
     return (
-      <div className='blogStyle' style={blogStyle}>
-        {upToDateBlog.title} - {upToDateBlog.author}
+      <div style={blogStyle}>
+        {blog.title} - {blog.author}
         <button onClick={toggleViewBlog}>
           view
         </button>

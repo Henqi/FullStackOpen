@@ -3,7 +3,12 @@ import { useEffect } from 'react'
 import blogService from '../services/blogs'
 import { orderBy } from 'lodash';
 
-const BlogList = ({ blogs, setBlogs, user }) => {
+const BlogList = ({
+  blogs,
+  setBlogs,
+  user,
+  setSuccessMessage,
+  setErrorMessage }) => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -18,7 +23,12 @@ const BlogList = ({ blogs, setBlogs, user }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          user={user} />
+          user={user}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
       )}
     </div>
   )
