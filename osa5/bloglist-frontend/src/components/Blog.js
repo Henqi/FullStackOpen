@@ -7,7 +7,8 @@ const Blog = ({
   user,
   blogs,
   setBlogs,
-  setSuccessMessage }) => {
+  setSuccessMessage,
+  setErrorMessage }) => {
 
   const [showFull, setShowFull] = useState(false)
 
@@ -20,9 +21,15 @@ const Blog = ({
     updatedBlog.likes += 1
     updatedBlog.user = user.id
 
-    const blogLikesAdded = await blogService.updateBlog(updatedBlog, user, blog.id)
-    const blogsWithoutOld = blogs.filter(blogEntry => blogEntry.id !== blog.id)
-    setBlogs(blogsWithoutOld.concat(blogLikesAdded))
+    try {
+      const blogLikesAdded = await blogService.updateBlog(updatedBlog, user, blog.id)
+      const blogsWithoutOld = blogs.filter(blogEntry => blogEntry.id !== blog.id)
+      setBlogs(blogsWithoutOld.concat(blogLikesAdded))
+    }
+    catch (e) {
+      setErrorMessage(`Could not add like: ${e.response.data.error}`)
+    }
+
   }
 
   const isUserBlog = () => {
@@ -37,9 +44,14 @@ const Blog = ({
 
   const handleBlogDelete = async () => {
     if (window.confirm(`Delete blog "${blog.title}" by "${blog.author}"?`)) {
-      await blogService.deleteBlog(user, blog.id)
-      setBlogs(blogs.filter(blogEntry => blogEntry.id !== blog.id))
-      setSuccessMessage(`Deleted blog "${blog.title}" by "${blog.author}"`)
+      try {
+        await blogService.deleteBlog(user, blog.id)
+        setBlogs(blogs.filter(blogEntry => blogEntry.id !== blog.id))
+        setSuccessMessage(`Deleted blog "${blog.title}" by "${blog.author}"`)
+      }
+      catch (e) {
+        setErrorMessage(`Could not delete blog: ${e.response.data.error}`)
+      }
     }
   }
 
