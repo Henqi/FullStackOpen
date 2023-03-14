@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import CreateBlog from './components/CreateBlog'
@@ -26,6 +26,8 @@ const App = () => {
     window.localStorage.clear()
     setUser(null)
   }
+
+  const createBlogRef = useRef()
 
   if (user === null) {
     return (
@@ -59,13 +61,15 @@ const App = () => {
         logout
         </button>
         <div>
-          <Togglable buttonLabel='Create blog'>
+          <Togglable buttonLabel='Create blog' ref={createBlogRef} >
             <CreateBlog
               blogs={blogs}
               setBlogs={setBlogs}
               user={user}
               setSuccessMessage={setSuccessMessage}
-              setErrorMessage={setErrorMessage} />
+              setErrorMessage={setErrorMessage}
+              createBlogRef={createBlogRef}
+            />
           </Togglable>
         </div>
         <div>

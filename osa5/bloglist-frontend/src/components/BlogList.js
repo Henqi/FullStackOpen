@@ -1,7 +1,8 @@
 import Blog from './Blog'
 import { useEffect } from 'react'
 import blogService from '../services/blogs'
-import { orderBy } from 'lodash';
+import { orderBy } from 'lodash'
+import PropTypes from 'prop-types'
 
 const BlogList = ({
   blogs,
@@ -32,6 +33,14 @@ const BlogList = ({
       )}
     </div>
   )
+}
+
+BlogList.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  setSuccessMessage: PropTypes.func.isRequired,
+  setErrorMessage: PropTypes.func.isRequired
 }
 
 export default BlogList

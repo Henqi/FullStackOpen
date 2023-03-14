@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Blog = ({
   blog,
@@ -85,6 +86,14 @@ const Blog = ({
       </div>
     )
   }
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  setSuccessMessage: PropTypes.func.isRequired
 }
 
 export default Blog

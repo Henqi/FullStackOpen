@@ -1,11 +1,13 @@
 import blogService from '../services/blogs'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const CreateBlog = ({
   setBlogs,
   user,
   setSuccessMessage,
-  setErrorMessage }) => {
+  setErrorMessage,
+  createBlogRef }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -23,12 +25,15 @@ const CreateBlog = ({
       await blogService.createBlog(newBlog, user)
       const updatedBlogs = await blogService.getAll()
       setBlogs(updatedBlogs)
+      createBlogRef.current.toggleVisibility()
+
       setSuccessMessage(`Blog "${newBlog.title}" by "${newBlog.author}" succesfully created`)
       setTitle('')
       setAuthor('')
       setUrl('')
-    } catch {
-      setErrorMessage(`Could not create new blog`)
+
+    } catch (e) {
+      setErrorMessage(`Could not create new blog: ${e.response.data.error}`)
     }
   }
 
@@ -68,6 +73,13 @@ const CreateBlog = ({
       </form>
     </>
   )
+}
+
+CreateBlog.propTypes = {
+  setBlogs: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  setSuccessMessage: PropTypes.func.isRequired,
+  setErrorMessage: PropTypes.func.isRequired
 }
 
 export default CreateBlog
