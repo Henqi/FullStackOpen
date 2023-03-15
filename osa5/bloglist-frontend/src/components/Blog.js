@@ -66,19 +66,24 @@ const Blog = ({
   if (showFull) {
     return (
       <div style={blogStyle}>
-        {blog.title} - {blog.author}
-        <button onClick={toggleViewBlog}>
-          hide
-        </button>
-        <br/>
-        {blog.url}
-        <br/>
+        <div>
+          {blog.title} - {blog.author}
+          <button onClick={toggleViewBlog}>
+            hide
+          </button>
+        </div>
+        <div>
+          {blog.url}
+        </div>
+        <div>
         likes: {blog.likes}
-        <button onClick={handleAddLike}>
+          <button onClick={handleAddLike}>
           like
-        </button>
-        <br/>
-        {blog.user.name}
+          </button>
+        </div>
+        <div>
+          {blog.user.name}
+        </div>
         <div>
           <button onClick={handleBlogDelete} style={deleteButtonStyle} >
             delete blog
