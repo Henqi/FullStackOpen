@@ -1,11 +1,15 @@
 const logger = require('./logger')
 const jwt = require('jsonwebtoken')
 
+const now = new Date()
+now.setUTCHours(now.getUTCHours() + 2)
+
 const requestLogger = (request, response, next) => {
+  logger.info('Timestamp:', now.toISOString())
   logger.info('Method:', request.method)
-  logger.info('Path:  ', request.path)
-  logger.info('Body:  ', request.body)
-  logger.info('Authorization: ', request.headers.authorization)
+  logger.info('Path:', request.path)
+  logger.info('Body:', request.body)
+  logger.info('Authorization:', request.headers.authorization)
   logger.info('---')
   next()
 }
