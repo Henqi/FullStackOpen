@@ -69,7 +69,6 @@ const CreateBlog = ({
             name="url"
             onChange={({ target }) => setUrl(target.value)}
             placeholder='Write the url here'
-
           />
         </div>
         <br></br>
