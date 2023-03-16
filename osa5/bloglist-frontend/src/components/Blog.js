@@ -29,7 +29,6 @@ const Blog = ({
     catch (e) {
       setErrorMessage(`Could not add like: ${e.response.data.error}`)
     }
-
   }
 
   const isUserBlog = () => {

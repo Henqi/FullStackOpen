@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
+import blogService from '../services/blogs'
 
 
 describe('Frontend blog tests', () => {
@@ -12,6 +13,7 @@ describe('Frontend blog tests', () => {
     token: 'pajatso',
     username: 'IsoH'
   }
+
   const blog = {
     author: 'Pate',
     title: 'Teaching Finnish',
@@ -19,20 +21,21 @@ describe('Frontend blog tests', () => {
     user: user,
     likes: 1332
   }
+
+  const mockHandler = jest.fn()
+  const clickUser = userEvent.setup()
+
   const blogs = []
-  const setBlogs = () => {}
-  const setSuccessMessage = () => {}
+  const setBlogs = mockHandler
+  const setSuccessMessage = mockHandler
 
-  test('blog renders only title & author by default', () => {
-
+  test('blog renders only title & author by default', async () => {
     render(<Blog blog={blog} user={user} blogs={blogs} setBlogs={setBlogs} setSuccessMessage={setSuccessMessage} />)
     screen.getByText(`${blog.title} - ${blog.author}`)
   })
 
   test('url, likes & user is rendered after user clicks "view" button', async () => {
-
     render(<Blog blog={blog} user={user} blogs={blogs} setBlogs={setBlogs} setSuccessMessage={setSuccessMessage} />)
-    const clickUser = userEvent.setup()
     const button = screen.getByText('view')
     await clickUser.click(button)
 
@@ -42,4 +45,23 @@ describe('Frontend blog tests', () => {
     screen.getByText(`${blog.user.name}`)
   })
 
+  test('clicking the like-button twice calls the event handler twice', async () => {
+    render(<Blog blog={blog} user={user} blogs={blogs} setBlogs={setBlogs} setSuccessMessage={setSuccessMessage} />)
+
+    const spyUpdateBlog = jest.spyOn(blogService, 'updateBlog').mockImplementation((event) => {})
+
+    const viewButton = screen.getByText('view')
+    await clickUser.click(viewButton)
+
+    const likeButton = screen.getByText('like')
+    await clickUser.click(likeButton)
+    await clickUser.click(likeButton)
+
+    expect(spyUpdateBlog).toBeCalledTimes(2)
+  })
+
+})
+
+afterEach(async () => {
+  jest.restoreAllMocks()
 })
