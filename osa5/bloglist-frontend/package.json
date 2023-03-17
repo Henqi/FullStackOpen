@@ -11,11 +11,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-test": "NODE_ENV=test node index.js",
     "build": "react-scripts build",
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "lint-fix": "npm run lint -- --fix ."
+    "lint-fix": "npm run lint -- --fix .",
+    "cypress-open": "cypress open",
+    "cypress-run": "cypress run"
   },
   "eslintConfig": {
     "extends": [
