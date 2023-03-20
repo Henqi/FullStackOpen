@@ -118,7 +118,6 @@ describe('When logged in', function() {
   
 })
 
-
 describe('After creating a new blog', function() {
   beforeEach(function() {
     cy.testReset()
@@ -143,13 +142,21 @@ describe('After creating a new blog', function() {
   it('A blog can be liked', function() {
     cy.get('#blog-view').click()
     cy.contains('likes: 0')
-    cy.get('#blog-add-like')
-      .click()
+    cy.get('#blog-add-like').click()
     cy.contains('likes: 1')
-    cy.get('#blog-add-like')
-      .click()
+    cy.get('#blog-add-like').click()
     cy.contains('likes: 2')
   })
 
+  it('Blog creator can delete blog', function() {
+    cy.get('#blog-view').click()
+    cy.get('#blog-delete').click()
+    cy.get('.success')
+    .contains(`Deleted blog "${blog.title}" by "${blog.author}"`)
+    .and('have.css', 'color', 'rgb(0, 128, 0)')
+    .and('have.css', 'border-style', 'solid')
+    cy.contains(blog.title).should('not.exist')
+    cy.contains(blog.author).should('not.exist')
+  })
   
 })
