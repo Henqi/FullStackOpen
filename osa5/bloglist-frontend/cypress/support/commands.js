@@ -39,11 +39,15 @@ Cypress.Commands.add('login', ({ username, password }) => {
   })
 })
 
-Cypress.Commands.add('createBlog', ({ newBlog, user }) => {
+Cypress.Commands.add('createBlog', ({ title, author, url }) => {
   cy.request({
     url: `${Cypress.env('BACKEND')}/blogs`,
     method: 'POST',
-    body: { newBlog, user },
+    body: { 
+      'title': title,
+      'author': author,
+      'url': url
+    },
     headers: {
       'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedUser')).token}`
     }
