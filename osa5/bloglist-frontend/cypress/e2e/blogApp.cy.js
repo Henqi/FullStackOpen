@@ -117,3 +117,39 @@ describe('When logged in', function() {
   })
   
 })
+
+
+describe('After creating a new blog', function() {
+  beforeEach(function() {
+    cy.testReset()
+    cy.createUser({ 
+      username: user.username, 
+      name: user.name, 
+      password: user.password 
+    })
+    cy.login({ 
+      username: user.username, 
+      password: user.password }) 
+    cy.createBlog({ 
+      title: blog.title,
+      author: blog.author,
+      url: blog.url })
+
+    cy.visit('')
+    cy.contains(blog.title)
+    cy.contains(blog.author)
+  })
+
+  it('A blog can be liked', function() {
+    cy.get('#blog-view').click()
+    cy.contains('likes: 0')
+    cy.get('#blog-add-like')
+      .click()
+    cy.contains('likes: 1')
+    cy.get('#blog-add-like')
+      .click()
+    cy.contains('likes: 2')
+  })
+
+  
+})
