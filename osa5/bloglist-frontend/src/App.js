@@ -57,8 +57,8 @@ const App = () => {
     return (
       <>
       User logged in: {user.username}
-        <button onClick={handleLogOut}>
-        logout
+        <button id='logout-button' onClick={handleLogOut}>
+        Logout
         </button>
         <div>
           <Togglable buttonLabel='Create blog' ref={createBlogRef} >

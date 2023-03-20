@@ -67,7 +67,7 @@ const Blog = ({
       <div style={blogStyle}>
         <div>
           {blog.title} - {blog.author}
-          <button onClick={toggleViewBlog}>
+          <button id='blog-hide' onClick={toggleViewBlog}>
             hide
           </button>
         </div>
@@ -76,15 +76,15 @@ const Blog = ({
         </div>
         <div>
         likes: {blog.likes}
-          <button onClick={handleAddLike}>
+          <button id='blog-add-like' onClick={handleAddLike}>
           like
           </button>
         </div>
-        <div>
+        <div id='blog-user'>
           {blog.user.name}
         </div>
         <div>
-          <button onClick={handleBlogDelete} style={deleteButtonStyle} >
+          <button id='blog-delete' onClick={handleBlogDelete} style={deleteButtonStyle} >
             delete blog
           </button>
         </div>
@@ -96,7 +96,7 @@ const Blog = ({
     return (
       <div style={blogStyle}>
         {blog.title} - {blog.author}
-        <button onClick={toggleViewBlog}>
+        <button id='blog-view' onClick={toggleViewBlog}>
           view
         </button>
       </div>

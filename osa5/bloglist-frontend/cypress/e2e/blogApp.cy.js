@@ -1,13 +1,24 @@
+const blog = {
+  title: 'The fondness of Ruka',
+  author: 'Ihku',
+  url: 'ruka.com'
+}
+const user = {
+  username: 'Kalle', 
+  name: 'Kalle Ankka', 
+  password: 'siideri' 
+}
+
 describe('template spec', () => {
   it('passes', () => {
     cy.visit('https://example.cypress.io')
   })
 })
 
-describe('Blog app', function() {
+describe('Blog app front page', function() {
   beforeEach(function() {
-    cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    cy.visit('http://localhost:3000')
+    cy.testReset()
+    cy.visit('')
   })
 
   it('Login form is shown', function() {
@@ -19,33 +30,90 @@ describe('Blog app', function() {
   
 })
 
-describe('Login', function() {
+describe('Login functionality', function() {
   beforeEach(function() {
-    cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    const user = {
-      'username': 'Kalle', 
-      'name': 'Kalle Ankka',
-      'password': 'siideri'
-    }
-    cy.request('POST', 'http://localhost:3003/api/users', user)
-    cy.visit('http://localhost:3000')
+    cy.testReset()
+    cy.createUser({ 
+      username: user.username, 
+      name: user.name, 
+      password: user.password 
+    })
+    cy.visit('')
+  })
+
+  it('Login fails with incorrect credentials', function() {
+    cy.contains('Log in to blog app:')
+    cy.get('#login-button').click()
+    cy.get('#username').type(user.username)
+    cy.get('#password').type('wrongpassword')
+    cy.get('#login-button').click()
+    cy.get('.error')
+      .contains('wrong username or password')
+      .and('have.css', 'color', 'rgb(255, 0, 0)')
+      .and('have.css', 'border-style', 'solid')
+    cy.contains('User logged in:').should('not.exist')
+    cy.contains('#logout').should('not.exist')
   })
 
   it('Login succeeds with correct credentials', function() {
     cy.contains('Log in to blog app:')
     cy.get('#login-button').click()
-    cy.get('#username').type('Kalle')
-    cy.get('#password').type('siideri')
+    cy.get('#username').type(user.username)
+    cy.get('#password').type(user.password)
     cy.get('#login-button').click()
+    cy.contains('User logged in:')
+    cy.get('#logout-button')
   })
   
-  it('Login fails with incorrect credentials', function() {
-    cy.contains('Log in to blog app:')
-    cy.get('#login-button').click()
-    cy.get('#username').type('Kalle')
-    cy.get('#password').type('olut')
-    cy.get('#login-button').click()
+})
 
+describe('When logged in', function() {
+  beforeEach(function() {
+    cy.testReset()
+    cy.createUser({ 
+      username: user.username, 
+      name: user.name, 
+      password: user.password 
+    })
+    cy.login({ 
+      username: user.username, 
+      password: user.password })
+    cy.visit('')
+  })
+
+  it('A blog can be created and the title & author are shown after creation', function() {
+    cy.contains('Create blog').click()
+    cy.get('#title').type(blog.title)
+    cy.get('#author').type(blog.author)
+    cy.get('#url').type(blog.url)
+    cy.get('#submit-add-blog').click()
+
+    cy.get('.success')
+    .and('have.css', 'color', 'rgb(0, 128, 0)')
+    .and('have.css', 'border-style', 'solid')
+    cy.contains(blog.title)
+    cy.contains(blog.author)
+  })
+
+  it('Created blog contains all information when opened', function() {
+    cy.contains('Create blog').click()
+    cy.get('#title').type(blog.title)
+    cy.get('#author').type(blog.author)
+    cy.get('#url').type(blog.url)
+    cy.get('#submit-add-blog').click()
+
+    cy.get('.success')
+      .and('have.css', 'color', 'rgb(0, 128, 0)')
+      .and('have.css', 'border-style', 'solid')
+    cy.get('#blog-view').click()
+    cy.contains(blog.title)
+    cy.contains(blog.author)
+    cy.contains(blog.url)
+    cy.contains('likes: ')
+    cy.get('#blog-user')
+      .contains(user.name)
+    cy.get('#blog-add-like')
+    cy.get('#blog-delete')
   })
   
 })
