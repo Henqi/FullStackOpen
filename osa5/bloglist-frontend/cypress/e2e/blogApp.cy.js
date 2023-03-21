@@ -158,5 +158,26 @@ describe('After creating a new blog', function() {
     cy.contains(blog.title).should('not.exist')
     cy.contains(blog.author).should('not.exist')
   })
+
+  it('Blog creator sees the delete-button', function() {
+    cy.get('#blog-view').click()
+    cy.get('#blog-delete')
+  })
+  
+  it('User does NOT see delete-button for blogs created by others', function() {
+    localStorage.clear()
+    cy.createUser({ 
+      username: 'different_user', 
+      name: 'Diff Erent', 
+      password: 'differentpw' 
+    })
+    cy.login({ 
+      username: 'different_user', 
+      password: 'differentpw' }) 
+    cy.visit('')
+    cy.get('#blog-view').click()
+    cy.get('#blog-delete')
+      .should('have.css', 'display', 'none')
+  })
   
 })
