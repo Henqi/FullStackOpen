@@ -1,21 +1,42 @@
-import { useEffect } from "react"
-import weatherData from "../services/weatherData"
+import loadingGif from '../images/loading.gif'
+import { useEffect, useState } from 'react'
+import weatherData from '../services/weatherData'
 
+const WeatherScreen = ({ selectedCountry }) => {
 
-const WeatherScreen = ({ selectedCountry, weather, setWeather }) => {
+    const [weather, setWeather] = useState([])
     
+    const gifStyle = {
+        'width': 85,
+        'height': 85
+    }
     useEffect(() => {
-        console.log('weather in useEffect()', weather)
-        
         weatherData.getWeather(selectedCountry.capital)
-                    .then(response => {
-                        setWeather(response)
-                    })
+            .then(response => {
+                setWeather(response)
+            })
     }, [selectedCountry])
-    
-    console.log('weather outside useEffect()', weather)
 
-    return (
+    if (weather.length === 0) {
+        return (
+            <div>
+                <div>
+                    <h2> Weather in {selectedCountry.capital} </h2>
+                </div>
+                <div>
+                    Temperature: <img src={loadingGif} style={gifStyle} alt='loading' />
+                </div>
+                <div>
+                    Wind: <img src={loadingGif} style={gifStyle} alt='loading' />
+                </div>
+                <div>
+                    <img src={loadingGif} style={gifStyle} alt='loading' />
+                </div>
+            </div>
+        )
+    }
+    else {
+        return (
         <div>
             <div>
                 <h2> Weather in {selectedCountry.capital} </h2>
@@ -31,7 +52,8 @@ const WeatherScreen = ({ selectedCountry, weather, setWeather }) => {
                 <p> {weather.current.condition.text} </p>
             </div>
         </div>
-    )
+        )
+    }
 }
 
 export default WeatherScreen

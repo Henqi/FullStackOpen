@@ -6,8 +6,6 @@ function App() {
 
   const [countryData, setCountryData] = useState([])
   const [countryFilter, setCountryFilter] = useState('')
-  const [weather, setWeather] = useState([])
-
 
   useEffect(() => {
     countryDataService.getAll()
@@ -26,12 +24,11 @@ function App() {
         Find countries: <input value={countryFilter} onChange={handleChange} />
       </div>
       <div>
-        <CountryList  countryData={countryData} 
-                      countryFilter={countryFilter}
-                      setCountryFilter={setCountryFilter}
-                      weather={weather}
-                      setWeather={setWeather}
-                      /> 
+        <CountryList  
+          countryData={countryData} 
+          countryFilter={countryFilter}
+          setCountryFilter={setCountryFilter}
+        /> 
       </div>
     </> 
   )
