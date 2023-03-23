@@ -15,9 +15,22 @@ const WeatherScreen = ({ selectedCountry }) => {
             .then(response => {
                 setWeather(response)
             })
+            .catch(e => {
+                setWeather(e.response.data.error.message)
+            })
     }, [selectedCountry])
 
-    if (weather.length === 0) {
+    if (typeof(weather) === 'string') {
+        return (
+            <div>
+                <h3>
+                    {weather}
+                </h3>
+            </div>
+        )
+    }
+
+    else if (weather.length === 0) {
         return (
             <div>
                 <div>
