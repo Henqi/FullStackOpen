@@ -8,5 +8,4 @@ const getWeather = (city) => {
   return request.then(response => response.data)
 }
 
-export default {  getWeather
-                }
+export default {  getWeather }
