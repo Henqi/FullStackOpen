@@ -13,12 +13,12 @@ const Anecdotes = () => {
     <>
       <h2>Anecdotes</h2>
         {anecdotes.map(anecdote =>
-          <div key={anecdote.id}>
+          <div style={{padding: 5}} key={anecdote.id}>
             <div>
               {anecdote.content}
             </div>
             <div>
-              has {anecdote.votes}
+              has {anecdote.votes} votes {' '}
               <button onClick={() => vote(anecdote.id)}>vote</button>
             </div>
           </div>
