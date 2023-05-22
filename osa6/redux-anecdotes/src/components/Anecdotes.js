@@ -12,7 +12,15 @@ const Anecdotes = () => {
   return (
     <>
       <h2>Anecdotes</h2>
-        {anecdotes.map(anecdote =>
+        {anecdotes
+        .sort((a, b) => {
+          if(a.votes === b.votes) {
+            return 0
+          } else {
+            return a.votes > b.votes ? -1 : 1
+          }
+        })
+        .map(anecdote =>
           <div style={{padding: 5}} key={anecdote.id}>
             <div>
               {anecdote.content}
