@@ -1,8 +1,13 @@
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
+
+  const resetNotification = () => {
+    dispatch(clearNotification())
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -10,8 +15,10 @@ const AnecdoteForm = () => {
     if(anecdoteContent.trim() === '') {
       return
     }
-    dispatch(createAnecdote(anecdoteContent))
     event.target.anecdote.value = ''
+    dispatch(createAnecdote(anecdoteContent))
+    dispatch(setNotification(`You added a new anecdote: "${anecdoteContent}"`))
+    setTimeout(resetNotification, 5000)
   }
 
   return (
