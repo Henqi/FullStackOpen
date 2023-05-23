@@ -20,7 +20,7 @@ const AnecdoteList = () => {
 
   return (
     <>
-        {anecdotes
+      {anecdotes
         .sort((a, b) => {
           if(a.votes === b.votes) {
             return 0
@@ -29,7 +29,7 @@ const AnecdoteList = () => {
           }
         })
         .map(anecdote =>
-          <div style={{padding: 5}} key={anecdote.id}>
+          <div style={{ padding: 5 }} key={anecdote.id}>
             <div>
               {anecdote.content}
             </div>

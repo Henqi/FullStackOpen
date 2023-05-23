@@ -13,10 +13,10 @@ const reducer = combineReducers({
   filter: filterReducer
 })
 
- const store = createStore(
+const store = createStore(
   reducer,
   +  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
- );
+)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
