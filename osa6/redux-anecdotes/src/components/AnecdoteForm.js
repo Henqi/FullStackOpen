@@ -7,8 +7,11 @@ const AnecdoteForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         const anecdoteContent = event.target.anecdote.value
-        event.target.anecdote.value = ''
+        if(anecdoteContent.trim() === '') {
+            return
+        }
         dispatch(addAnecdote(anecdoteContent))
+        event.target.anecdote.value = ''
     }
 
     return (       
