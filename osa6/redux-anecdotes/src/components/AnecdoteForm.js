@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification, clearNotification } from '../reducers/notificationReducer'
 import { useState } from 'react'
+import anecdoteService from '../services/anecdotes'
 
 const AnecdoteForm = () => {
   const [timeoutId, setTimeoutId] = useState()
@@ -12,7 +13,7 @@ const AnecdoteForm = () => {
     dispatch(clearNotification())
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const anecdoteContent = event.target.anecdote.value
     if(anecdoteContent.trim() === '') {
@@ -20,8 +21,9 @@ const AnecdoteForm = () => {
     }
     event.target.anecdote.value = ''
 
-    dispatch(createAnecdote(anecdoteContent))
-    dispatch(setNotification(`You added a new anecdote: "${anecdoteContent}"`))
+    const newAnecdote = await anecdoteService.createNew(anecdoteContent)
+    dispatch(createAnecdote(newAnecdote))
+    dispatch(setNotification(`You added a new anecdote: "${newAnecdote.content}"`))
     clearTimeout(timeoutId)
     const toId = setTimeout(resetNotification, 5000)
     setTimeoutId(toId)
