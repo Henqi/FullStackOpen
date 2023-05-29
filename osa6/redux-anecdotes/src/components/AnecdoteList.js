@@ -14,7 +14,6 @@ const AnecdoteList = () => {
     }
   })
   const notification = useSelector(state => state.notification)
-
   const dispatch = useDispatch()
 
   const vote = (anecdote) => {

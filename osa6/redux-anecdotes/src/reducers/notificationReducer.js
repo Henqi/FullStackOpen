@@ -31,18 +31,18 @@ export const {
   clearTimeoutId } = notificationSlice.actions
 
 export const setNewNotification = (content, id) => {
-  return async dispatch => {
-    await clearTimeout(id)
-    await dispatch(clearTimeoutId())
-    await dispatch(setNotification(content))
-    await dispatch(setNotificationTimeout())
+  return dispatch => {
+    clearTimeout(id)
+    dispatch(clearTimeoutId())
+    dispatch(setNotification(content))
+    dispatch(setNotificationTimeout())
   }
 }
 
 const setNotificationTimeout = () => {
-  return async dispatch => {
-    const id = await setTimeout(() => dispatch(clearNotification()), 5000)
-    await dispatch(setTimeoutId(id))
+  return dispatch => {
+    const id = setTimeout(() => dispatch(clearNotification()), 5000)
+    dispatch(setTimeoutId(id))
   }
 }
 
