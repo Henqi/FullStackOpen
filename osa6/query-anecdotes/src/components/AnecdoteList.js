@@ -1,7 +1,14 @@
-import { useQuery } from 'react-query'
-import { getAnecdotes } from '../requests'
+import { useQuery, useQueryClient, useMutation } from 'react-query'
+import { getAnecdotes, voteAnecdote } from '../requests'
 
 const AnecdoteList = () => {
+
+  const queryClient = useQueryClient()
+  const voteAnecdoteMutation = useMutation(voteAnecdote, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('anecdotes')
+    }
+  })
 
   const result = useQuery('anecdotes', getAnecdotes, {
     retry:1
@@ -14,27 +21,30 @@ const AnecdoteList = () => {
   }
 
   const anecdotes = result.data
-  
+
   const handleVote = (anecdote) => {
-    console.log('vote')
+    voteAnecdoteMutation.mutate(anecdote)
   }
 
-    return (
-      <div>
-          {anecdotes.map(anecdote =>
-              <div key={anecdote.id}>
-                <div>
-                  {anecdote.content}
-                </div>
-                <div>
+  return (
+    <div>
+      {anecdotes
+        .sort((a,b) => {
+          return a.votes < b.votes ? 1 : -1
+        })
+        .map(anecdote =>
+          <div key={anecdote.id}>
+            <div>
+              {anecdote.content}
+            </div>
+            <div>
                   has {anecdote.votes}
-                <button onClick={() => handleVote(anecdote)}>vote</button>
-                </div>
-              </div>
-          )}
-      </div>
-    )
-  }
-  
-  export default AnecdoteList
-  
+              <button onClick={() => handleVote(anecdote)}>vote</button>
+            </div>
+          </div>
+        )}
+    </div>
+  )
+}
+
+export default AnecdoteList

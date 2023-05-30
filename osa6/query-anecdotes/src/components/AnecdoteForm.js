@@ -7,7 +7,7 @@ const AnecdoteForm = () => {
   const newAnecdoteMutation = useMutation(createAnecdote, {
     onSuccess: () => {
       queryClient.invalidateQueries('anecdotes')
-    },
+    }
   })
 
   const addAnecdote =  (event) => {

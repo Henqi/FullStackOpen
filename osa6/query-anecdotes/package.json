@@ -18,7 +18,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node server"
+    "server": "node server",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^8.41.0",
     "json-server": "^0.17.1"
   }
 }
