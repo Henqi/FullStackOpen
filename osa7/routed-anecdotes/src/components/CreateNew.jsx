@@ -31,7 +31,7 @@ function CreateNew(props) {
           url for more info
           <input name="info" value={info} onChange={(e) => setInfo(e.target.value)} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   );

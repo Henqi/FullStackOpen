@@ -26,6 +26,16 @@
         "react"
     ],
     "rules": {
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "semi": 0,
+        "prefer-destructuring": 0,
+        "react/jsx-filename-extension": 0,
+        "max-len": 0,
+        "react/prop-types": 0,
+        "react/destructuring-assignment": 0,
+        "array-callback-return": 0,
+        "arrow-body-style": 0,
+        "no-unused-vars": 0,
+        "no-shadow": 0
       }
 }
