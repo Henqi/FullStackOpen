@@ -9,19 +9,17 @@ function Anecdote({ anecdote }) {
     <div>
       <h2>{anecdote.content}</h2>
       <div style={padding}>
-        Author:
+        <strong>Author:</strong>
         {' '}
         {anecdote.author}
       </div>
       <div style={padding}>
-        Has
+        <strong>Votes:</strong>
         {' '}
         {anecdote.votes}
-        {' '}
-        votes
       </div>
       <div style={padding}>
-        For more info see:
+        <strong>For more info see:</strong>
         {' '}
         {anecdote.info}
       </div>

@@ -68,7 +68,7 @@ function Menu() {
       </div>
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
-        <Route path="create" element={<CreateNew />} />
+        <Route path="create" element={<CreateNew addNew={addNew} />} />
         <Route path="about" element={<About />} />
         <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} />} />
       </Routes>
