@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Link,
@@ -38,39 +37,30 @@ function Menu() {
     ? anecdotes.find((a) => a.id === Number(match.params.id))
     : null
 
-  const addNew = (anecdote) => {
-    const newAnecdote = {
-      ...anecdote,
-      id: Math.round(Math.random() * 10000),
-    }
-    setAnecdotes(anecdotes.concat(newAnecdote));
-  };
-
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
-
-  const vote = (id) => {
-    const anecdote = anecdoteById(id);
-
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1,
-    };
-
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
-  };
-
   return (
     <>
       <div>
-        <Link style={padding} to="/">anecdotes</Link>
-        <Link style={padding} to="/create">create new</Link>
-        <Link style={padding} to="/about">about</Link>
+        <Link style={padding} to="/">Anecdotes</Link>
+        <Link style={padding} to="/create">CreateNew</Link>
+        <Link style={padding} to="/about">About</Link>
       </div>
       <Routes>
-        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
-        <Route path="create" element={<CreateNew addNew={addNew} />} />
-        <Route path="about" element={<About />} />
-        <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} />} />
+        <Route
+          path="/"
+          element={<AnecdoteList anecdotes={anecdotes} setAnecdotes={setAnecdotes} notification={notification} setNotification={setNotification} />}
+        />
+        <Route
+          path="create"
+          element={<CreateNew anecdotes={anecdotes} setAnecdotes={setAnecdotes} setNotification={setNotification} />}
+        />
+        <Route
+          path="about"
+          element={<About />}
+        />
+        <Route
+          path="/anecdotes/:id"
+          element={<Anecdote anecdote={anecdote} />}
+        />
       </Routes>
     </>
   );

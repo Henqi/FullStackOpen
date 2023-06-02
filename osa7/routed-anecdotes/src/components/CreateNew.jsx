@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function CreateNew({ addNew }) {
+function CreateNew({ anecdotes, setAnecdotes, setNotification }) {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
 
   const navigate = useNavigate()
+  const addNew = (anecdote) => {
+    const newAnecdote = {
+      ...anecdote,
+      id: Math.round(Math.random() * 10000),
+    }
+    setAnecdotes(anecdotes.concat(newAnecdote));
+    setNotification(`Created new anecdote: ${newAnecdote.content}`)
+    setTimeout(() => setNotification(''), 5000)
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     addNew({
